@@ -1,15 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:livansia_app/pages/login_screen.dart';
+import 'package:livansia_app/pages/wrapper.dart';
+import 'package:livansia_app/services/authedication_service.dart';
+
 import 'helpers/imports.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     MultiProvider(
-      providers: [],
+      providers: [
+        ChangeNotifierProvider<ThemeNotifier>(
+          create: (context) => ThemeNotifier(),
+        ),
+        ChangeNotifierProvider<AuthService>(
+          create: (context) => AuthService(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
 }
-
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -55,7 +68,18 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:
+          //const Wrapper(apoPou: true),
+          FutureBuilder(
+              future: Firebase.initializeApp(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return const Wrapper(apoPou: true);
+                } else if (snapshot.connectionState == ConnectionState.none) {
+                  return const Text("No data");
+                }
+                return const CircularProgressIndicator();
+              }),
     );
   }
 }

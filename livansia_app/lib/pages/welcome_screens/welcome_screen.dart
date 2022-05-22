@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -408,12 +407,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final datePick = await showRoundedDatePicker(
-        theme: ThemeData(
-          primaryColor: Colors.teal[100],
-        ),
+    final datePick = await showDatePicker(
+        // theme: ThemeData(
+        //   primaryColor: Colors.teal[100],
+        // ),
         context: context,
-        initialDate: birthDate == null ? DateTime.now() : birthDate,
+        initialDate: birthDate ?? DateTime.now(),
         firstDate: DateTime(1900),
         lastDate: DateTime.now());
     if (datePick != null && datePick != birthDate) {

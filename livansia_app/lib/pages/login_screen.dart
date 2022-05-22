@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:livansia_app/pages/user_consent.dart';
 
+import '../global/animated_logo_container.dart';
 import 'authenticate_firebase/sign_in.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -23,23 +24,25 @@ class _AuthScreenState extends State<AuthScreen> {
     final deviceSize = MediaQuery.of(context).size;
 
     return Scaffold(
+      //appBar: AppBar(),
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: Colors.white),
             height: deviceSize.height,
             width: deviceSize.width,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image(
-                  width: 130,
-                  image: AssetImage(
-                    "assets/6logo.png",
-                  ),
-                ),
-                SizedBox(height: 40.0),
+                AnimateLogo(),
+                // const Image(
+                //   width: 130,
+                //   image: AssetImage(
+                //     "assets/6logo.png",
+                //   ),
+                // ),
+                const SizedBox(height: 40.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

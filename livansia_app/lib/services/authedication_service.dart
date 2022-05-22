@@ -8,7 +8,7 @@ import '../helpers/imports.dart';
 
 class AuthService with ChangeNotifier {
   Timer? _timer;
-  final FirebaseAuth? _auth = FirebaseAuth.instance;
+  FirebaseAuth? _auth;
   User? userInstance;
 
   Users? _userFromFirebaseUser(User user) {

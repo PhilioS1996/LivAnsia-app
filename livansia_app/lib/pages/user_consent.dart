@@ -66,7 +66,6 @@ class Consent extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.teal[100],
-                        shape: BoxShape.circle,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: ElevatedButton(
@@ -86,7 +85,6 @@ class Consent extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.teal[100],
-                        shape: BoxShape.circle,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: ElevatedButton(

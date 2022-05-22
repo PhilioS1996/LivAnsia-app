@@ -44,7 +44,6 @@ class _RegisterState extends State<Register> {
         actions: <Widget>[
           Container(
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
               color: Colors.indigo[200],
               borderRadius: BorderRadius.circular(18.0),
             ),
@@ -165,7 +164,6 @@ class _RegisterState extends State<Register> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30.0, vertical: 4),
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
                                 color: Colors.teal[100],
                                 borderRadius: BorderRadius.circular(18.0),
                               ),

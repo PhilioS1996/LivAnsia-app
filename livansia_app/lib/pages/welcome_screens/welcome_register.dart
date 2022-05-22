@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
+
 import 'package:livansia_app/global/loading.dart';
 import 'package:livansia_app/pages/login_screen.dart';
 import 'package:livansia_app/services/authedication_service.dart';
@@ -274,11 +274,11 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final datePick = await showRoundedDatePicker(
-        theme: ThemeData(
-          primaryColor: Colors.teal[100],
-          //  accentColor: Colors.indigo[100],
-        ),
+    final datePick = await showDatePicker(
+        // theme: ThemeData(
+        //   primaryColor: Colors.teal[100],
+        //   //  accentColor: Colors.indigo[100],
+        // ),
         context: context,
         initialDate: birthDate,
         firstDate: DateTime(1900),
