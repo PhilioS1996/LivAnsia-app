@@ -20,7 +20,7 @@ class ThemeNotifier with ChangeNotifier {
 
   void changeTheme() {
     if (themeMode == ThemeMode.system) {
-      themeMode = ThemeMode.dark;
+      themeMode = ThemeMode.system;
       SharedPrefs.prefSet(StringPrefs.appTheme, false);
     } else {
       if (themeMode == ThemeMode.light) {

@@ -32,61 +32,74 @@ class _AuthScreenState extends State<AuthScreen> {
             height: deviceSize.height,
             width: deviceSize.width,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                AnimateLogo(),
-                // const Image(
-                //   width: 130,
-                //   image: AssetImage(
-                //     "assets/6logo.png",
-                //   ),
-                // ),
-                const SizedBox(height: 40.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton(
-                      //sign_in
-
-                      onPressed: () {
-                        if (showSignIn) {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) =>
-                                  SignIn(toggleView: toggleView),
-                            ),
-                          );
-                        }
-                      },
-
-                      child: const Text(
-                        'Είσοδος',
-                        style: TextStyle(
-                          color: Colors.cyan,
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      //register
-                      child: Text(
-                        'Εγγραφή',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
+                //  AnimateLogo(),
+                const Image(
+                  width: 130,
+                  image: AssetImage(
+                    "assets/6logo.png",
+                  ),
+                ),
+                const SizedBox(height: 100.0),
+                ElevatedButton(
+                  //sign_in
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.teal.shade200, onPrimary: Colors.white),
+                  onPressed: () {
+                    if (showSignIn) {
+                      Navigator.push(
                           context,
-                          new MaterialPageRoute(
-                            builder: (context) =>
-                                Consent(toggleView: toggleView),
-                          ),
-                        );
-                      },
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    SignIn(toggleView: toggleView),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return child;
+                            },
+                          ));
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32.0, vertical: 10),
+                    child: Text(
+                      'Είσοδος',
+                      style: TextStyle(
+                        fontSize:
+                            Theme.of(context).textTheme.headline6?.fontSize,
+                        color: Theme.of(context).textTheme.headline6?.color,
+                      ),
                     ),
-                  ],
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                ElevatedButton(
+                  //sign_in
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.teal.shade200, onPrimary: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => Consent(toggleView: toggleView),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32.0, vertical: 10),
+                    child: Text(
+                      'Εγγραφή',
+                      style: TextStyle(
+                        fontSize:
+                            Theme.of(context).textTheme.headline6?.fontSize,
+                        color: Theme.of(context).textTheme.headline6?.color,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

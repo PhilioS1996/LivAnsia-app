@@ -8,7 +8,7 @@ import 'helpers/imports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
   runApp(
     MultiProvider(
       providers: [
@@ -65,9 +65,8 @@ class _MyAppState extends State<MyApp> {
     //final languageNotifier = Provider.of<LanguageNotifier>(context);
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: themeNotifier.themeMode,
+      theme: themeNotifier.themeData,
       home:
           //const Wrapper(apoPou: true),
           FutureBuilder(
