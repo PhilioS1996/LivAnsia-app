@@ -53,7 +53,7 @@ class UserData {
           : null,
       score: data?['score'],
       gender: data?['Gender'],
-      thougths: data?['date'] + 'thoughts',
+      thougths: (data?['date'] ?? '') + 'thoughts',
     );
   }
 

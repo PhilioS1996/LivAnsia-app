@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:livansia_app/pages/welcome_screens/welcome_register.dart';
+import 'package:livansia_app/providers/user_provider.dart';
+import 'package:livansia_app/services/authedication_service.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,8 +19,8 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final _formKey = GlobalKey<FormState>();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user1;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
+  // late User user1;
 
   @override
   void initState() {
@@ -26,7 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   initUser() async {
-    user1 = _auth.currentUser!;
+    // user1 = _auth.currentUser!;
     setState(() {});
   }
 
@@ -62,7 +65,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         actions: <Widget>[
           Container(
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
               borderRadius: BorderRadius.circular(18.0),
               color: Colors.indigo[200],
             ),
@@ -78,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  void _showUserD() {
+  void _showUserD(User userSignIn) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -93,7 +95,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 leading:
                     Icon(Icons.radio_button_checked, color: Colors.teal[100]),
                 title: Text(
-                  '${user1.email}',
+                  '${userSignIn.email}',
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -127,7 +129,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         actions: <Widget>[
           Container(
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
               borderRadius: BorderRadius.circular(18.0),
               color: Colors.indigo[200],
             ),
@@ -145,155 +146,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-
+    final authServiceProv = Provider.of<AuthService>(context, listen: true);
+    authServiceProv.setUserSignIn();
     try {
-      return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).userData,
-        // user.uid != null
-        //     ? DatabaseService(uid: user.uid).userData
-        //     : AuthScreen(),
-        builder: (context, snapshot) {
-          UserData? userData = snapshot.data;
+      // return StreamBuilder<User>(
+      //   stream:
+      //       DatabaseService(uid: authServiceProv.userInstance!.uid).userData,
+      //   // user.uid != null
+      //   //     ? DatabaseService(uid: user.uid).userData
+      //   //     : AuthScreen(),
+      //   builder: (context, snapshot) {
+      //     UserData? userData = snapshot.data;
 
-          void showErrorD() {
-            showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: const Text(
-                  'Error',
-                  style: TextStyle(),
-                ),
-                content: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      RichText(
-                        text: const TextSpan(
-                          text:
-                              'Δεν έγινε σωστή καταγραφή των στοιχείων σου. Επανέλαβε την διαδικασία.',
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
-                      ),
-                      Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.indigo.shade100,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            InkWell(
-                              child: Text(
-                                _selectedDate,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                              onTap: () {
-                                _selectDate(context);
-                              },
-                            ),
-                            const SizedBox(
-                              width: 9,
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.calendar_today),
-                              tooltip: 'Ημερομηνία Γέννησης',
-                              onPressed: () {
-                                _selectDate(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.indigo.shade100,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        child: TextFormField(
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            hintText: 'Φύλο(Άνδρας/Γυναίκα)',
-                          ),
-                          keyboardType: TextInputType.text,
-                          validator: (val) =>
-                              val!.isEmpty ? 'Καταχώρησε το φύλο.' : null,
-                          onChanged: (val) {
-                            setState(() => gender = val);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                actions: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      borderRadius: BorderRadius.circular(18.0),
-                      color: Colors.indigo[200],
-                    ),
-                    child: ElevatedButton(
-                      child: const Text('Εντάξει'),
-                      onPressed: () async {
-                        await DatabaseService(uid: user.uid)
-                            .updateUserInfo(gender, born!);
-                        Navigator.of(ctx).pop();
-                      },
-                    ),
-                  )
-                ],
+      // if (snapshot.hasData) {
+      //  _che();
+      return Scaffold(
+        // backgroundColor: Colors.blue[50],
+        appBar: AppBar(
+          backgroundColor: Colors.teal[100],
+          centerTitle: true,
+          title: const Image(
+              width: 50,
+              image: AssetImage(
+                "assets/6logo.png",
               ),
-            );
-          }
-
-          String showTextField() {
-            if (userData!.born != null && userData.gender != null) {
-              setState(() {
-                _isButtonDisAm = !_isButtonDisAm;
-              });
-              gender = userData.gender!;
-              hm = userData.born!;
-              _showUserD();
-              return userData.born!;
-            } else {
-              setState(() {
-                _isButtonDisAm = !_isButtonDisAm;
-              });
-              //  _showErrorD();
-              return 'Ημερομηνία Γέννησης';
-            }
-          }
-
-          if (snapshot.hasData) {
-            //  _che();
-            return Scaffold(
-              // backgroundColor: Colors.blue[50],
-              appBar: AppBar(
-                backgroundColor: Colors.teal[100],
-                brightness: Brightness.light,
-                centerTitle: true,
-                title: const Image(
-                    width: 50,
-                    image: AssetImage(
-                      "assets/6logo.png",
-                    ),
-                    fit: BoxFit.cover),
-              ),
-              drawer: AppDrawer(),
-              body: Container(
+              fit: BoxFit.cover),
+        ),
+        drawer: AppDrawer(),
+        body: StreamBuilder<UserData?>(
+            stream:
+                DatabaseService(uid: authServiceProv.userSignIn!.uid).userData,
+            builder: (context, snapshot) {
+              return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
@@ -323,51 +207,43 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       icon: const Icon(
                         Icons.error_outline,
                       ),
-                      onPressed: () => showTextField(),
+                      onPressed: () => showTextField(
+                          snapshot.data, authServiceProv.userSignIn!),
                     ),
                     const SizedBox(height: 80),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18.0),
-                        shape: BoxShape.circle,
-                        color: Colors.grey[300],
-                      ),
-                      child: ElevatedButton.icon(
-                        icon: const Icon(Icons.calendar_today),
-                        label: const Text('Ημερολόγιο Καταχώρησης'),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   new MaterialPageRoute(
-                          //     builder: (context) => Calendar(user: (user.uid)),
-                          //   ),
-                          // );
-                        },
-                      ),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.grey[300], onPrimary: Colors.white),
+                      icon: const Icon(Icons.calendar_today),
+                      label: const Text('Ημερολόγιο Καταχώρησης'),
+                      onPressed: () {
+                        // Navigator.push(
+                        //   context,
+                        //   new MaterialPageRoute(
+                        //     builder: (context) => Calendar(user: (user.uid)),
+                        //   ),
+                        // );
+                      },
                     ),
                     const SizedBox(height: 5.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18.0),
-                        shape: BoxShape.circle,
-                        color: Colors.teal[100],
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.teal[100],
                       ),
-                      child: ElevatedButton(
-                        child: const Text(
-                          'Νέα Καταχώρηση',
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      child: const Text(
+                        'Νέα Καταχώρηση',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
                         ),
-                        onPressed: () async {
-                          // Navigator.push(
-                          //   context,
-                          //   new MaterialPageRoute(
-                          //       builder: (context) => Questionnaire()),
-                          // );
-                        },
                       ),
+                      onPressed: () async {
+                        // Navigator.push(
+                        //   context,
+                        //   new MaterialPageRoute(
+                        //       builder: (context) => Questionnaire()),
+                        // );
+                      },
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -393,16 +269,147 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     )
                   ],
                 ),
-              ),
-            );
-          } else {
-            return LoagingSpin();
-          }
-        },
+              );
+            }),
       );
+      // } else {
+      //   return LoagingSpin();
+      // }
+      // },
+      //);
     } catch (e) {
       print(e.toString());
       return Container();
+    }
+  }
+
+  void showErrorD(AuthService authServiceProv) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text(
+          'Error',
+          style: TextStyle(),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              RichText(
+                text: const TextSpan(
+                  text:
+                      'Δεν έγινε σωστή καταγραφή των στοιχείων σου. Επανέλαβε την διαδικασία.',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
+              ),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.indigo.shade100,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                      child: Text(
+                        _selectedDate,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                    ),
+                    const SizedBox(
+                      width: 9,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      tooltip: 'Ημερομηνία Γέννησης',
+                      onPressed: () {
+                        _selectDate(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.indigo.shade100,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                    hintText: 'Φύλο(Άνδρας/Γυναίκα)',
+                  ),
+                  keyboardType: TextInputType.text,
+                  validator: (val) =>
+                      val!.isEmpty ? 'Καταχώρησε το φύλο.' : null,
+                  onChanged: (val) {
+                    setState(() => gender = val);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18.0),
+              color: Colors.indigo[200],
+            ),
+            child: ElevatedButton(
+              child: const Text('Εντάξει'),
+              onPressed: () async {
+                await DatabaseService(uid: authServiceProv.userInstance!.uid)
+                    .updateUserInfo(gender, born!);
+                Navigator.of(ctx).pop();
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  String showTextField(var userSignIn, User userFirebase) {
+    if (userSignIn != null) {
+      if (userSignIn!.born != null && userSignIn.gender != null) {
+        setState(() {
+          _isButtonDisAm = !_isButtonDisAm;
+        });
+        gender = userSignIn.gender!;
+        hm = userSignIn.born!;
+        _showUserD(userFirebase);
+        return userSignIn.born!;
+      } else {
+        setState(() {
+          _isButtonDisAm = !_isButtonDisAm;
+        });
+        //  _showErrorD();
+        return 'Ημερομηνία Γέννησης';
+      }
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WelcomeRegister(),
+        ),
+      );
+      return 'ok';
     }
   }
 

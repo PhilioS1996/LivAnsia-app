@@ -175,37 +175,41 @@ class _RegisterState extends State<Register> {
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() => loading = true);
-                                    dynamic result = await _auth
+                                    await _auth
                                         .registerWithEmailAndPassword(
-                                            email, password);
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Wrapper(
-                                                apoPou: eimaiRegister,
-                                              )
-                                          //WelcomeScreen(),
-                                          ),
-                                    );
-                                    if (!result is Users) {
-                                      if (kDebugMode) {
-                                        print('$result');
+                                            email, password, context)
+                                        .then((result) {
+                                      if (result is! Users) {
+                                        if (kDebugMode) {
+                                          print('$result');
+                                        }
+                                        if (result
+                                            .toString()
+                                            .contains('ERROR_INVALID_EMAIL')) {
+                                          error =
+                                              'Λανθασμένη σύνταξη του email.';
+                                          _showErrorDialog(error);
+                                        } else if (result.toString().contains(
+                                            'ERROR_EMAIL_ALREADY_IN_USE')) {
+                                          error =
+                                              'Υπάρχει ήδη χρήστης με αυτό το email.';
+                                          _showErrorDialog(error);
+                                        }
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Wrapper(
+                                                    apoPou: eimaiRegister,
+                                                  )
+                                              //WelcomeScreen(),
+                                              ),
+                                        );
                                       }
-                                      if (result
-                                          .toString()
-                                          .contains('ERROR_INVALID_EMAIL')) {
-                                        error = 'Λανθασμένη σύνταξη του email.';
-                                        _showErrorDialog(error);
-                                      } else if (result.toString().contains(
-                                          'ERROR_EMAIL_ALREADY_IN_USE')) {
-                                        error =
-                                            'Υπάρχει ήδη χρήστης με αυτό το email.';
-                                        _showErrorDialog(error);
-                                      }
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                    }
+                                    });
                                   }
                                 },
                               ),

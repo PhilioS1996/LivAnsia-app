@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:livansia_app/pages/login_screen.dart';
+import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/wrapper.dart';
+import 'package:livansia_app/providers/user_provider.dart';
 import 'package:livansia_app/services/authedication_service.dart';
 
+import 'global/loading.dart';
 import 'helpers/imports.dart';
 
 void main() async {
@@ -18,6 +20,9 @@ void main() async {
         ChangeNotifierProvider<AuthService>(
           create: (context) => AuthService(),
         ),
+        ChangeNotifierProvider<UserProvider>(
+          create: (context) => UserProvider(),
+        )
       ],
       child: const MyApp(),
     ),
@@ -41,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  Future<void> future() async {
+  Future<String> future() async {
     final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     // final languageNotifier =
     //     Provider.of<LanguageNotifier>(context, listen: false);
@@ -56,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         _loading = false;
       });
     });
+    return 'ok';
   }
 
   @override
@@ -70,14 +76,14 @@ class _MyAppState extends State<MyApp> {
       home:
           //const Wrapper(apoPou: true),
           FutureBuilder(
-              future: Firebase.initializeApp(),
+              future: future(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return const Wrapper(apoPou: true);
+                if (snapshot.hasData) {
+                  return Wrapper(apoPou: true);
                 } else if (snapshot.connectionState == ConnectionState.none) {
                   return const Text("No data");
                 }
-                return const CircularProgressIndicator();
+                return LoagingSpin();
               }),
     );
   }

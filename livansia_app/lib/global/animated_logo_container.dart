@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import '../helpers/imports.dart';
 
 class AnimateLogo extends StatefulWidget {
-  AnimateLogo({super.key});
+  AnimateLogo({Key? key}) : super(key: key);
 
   @override
   State<AnimateLogo> createState() => _AnimateLogoState();

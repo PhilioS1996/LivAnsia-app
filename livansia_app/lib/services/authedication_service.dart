@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:livansia_app/global/show_snackBar.dart';
 
 import '../global/functions/database_firebase.dart';
 import '../helpers/imports.dart';
@@ -10,9 +11,17 @@ class AuthService with ChangeNotifier {
   Timer? _timer;
   FirebaseAuth? _auth;
   User? userInstance;
+  Users?
+      userApp; //its the user with the extra fields and take the uid,email,pass fron userFirebase
+  User? userSignIn;
 
   Users? _userFromFirebaseUser(User user) {
     return Users(uid: user.uid);
+  }
+
+  void setUserSignIn() {
+    userSignIn = FirebaseAuth.instance.currentUser!;
+    //notifyListeners();
   }
 
   //auth change user stream
@@ -24,10 +33,13 @@ class AuthService with ChangeNotifier {
   //sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth!
+      UserCredential result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-      userInstance = result.user;
+      // ignore: unnecessary_this
+      this.userInstance = result.user;
+      setUserSignIn();
+
       return _userFromFirebaseUser(userInstance!);
     } catch (e) {
       if (kDebugMode) {
@@ -43,18 +55,21 @@ class AuthService with ChangeNotifier {
 
 //final lista = new List<int>(6);
   //register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     try {
-      UserCredential? result = await _auth?.createUserWithEmailAndPassword(
-          email: email, password: password);
-      userInstance = result!.user;
+      UserCredential? result = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: email.trim(), password: password.trim());
+      userInstance = result.user;
 
       //creates a new document for the user with uid
       await DatabaseService(uid: userInstance!.uid).setUserData([], [], '', '');
       // await DatabaseService(uid: user.uid).setUserEvents(null);
 
       return _userFromFirebaseUser(userInstance!);
-    } catch (e) {
+    } on FirebaseException catch (e) {
+      showSnackbar(context, e.toString());
       if (kDebugMode) {
         print(e.toString());
       }

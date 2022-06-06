@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:livansia_app/helpers/imports.dart';
 import 'package:livansia_app/pages/authenticate_firebase/register.dart';
 import 'package:livansia_app/pages/wrapper.dart';
+import 'package:livansia_app/providers/user_provider.dart';
 
 import '../../global/loading.dart';
 import '../../services/authedication_service.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
-  const SignIn({super.key, required this.toggleView});
+  const SignIn({Key? key, required this.toggleView}) : super(key: key);
 
   @override
   _SignInState createState() => _SignInState();
@@ -96,7 +97,7 @@ class _SignInState extends State<SignIn> {
     final deviceSize = MediaQuery.of(context).size;
 
     return loading
-        ? const LoagingSpin()
+        ? LoagingSpin()
         : Scaffold(
             body: Container(
               padding: const EdgeInsets.symmetric(
@@ -183,34 +184,37 @@ class _SignInState extends State<SignIn> {
                                 try {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() => loading = true);
-                                    dynamic result =
-                                        await _auth.signInWithEmailAndPassword(
-                                            email, password);
 
-                                    Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) => Wrapper(
-                                                apoPou: eimaiSign,
-                                              )),
-                                    );
-                                    if (!result is Users) {
-                                      if (result
-                                          .toString()
-                                          .contains('ERROR_USER_NOT_FOUND')) {
-                                        error =
-                                            'Δεν βρέθηκε χρήστης με αυτό το email.';
-                                        _showErrorDialog(error);
-                                      } else if (result
-                                          .toString()
-                                          .contains('ERROR_WRONG_PASSWORD')) {
-                                        error = 'Λάθος Κωδικός Πρόσβασης.';
-                                        _showErrorDialog(error);
+                                    await _auth
+                                        .signInWithEmailAndPassword(
+                                            email, password)
+                                        .then((resultUser) {
+                                      if (resultUser is! Users) {
+                                        if (resultUser
+                                            .toString()
+                                            .contains('ERROR_USER_NOT_FOUND')) {
+                                          error =
+                                              'Δεν βρέθηκε χρήστης με αυτό το email.';
+                                          _showErrorDialog(error);
+                                        } else if (resultUser
+                                            .toString()
+                                            .contains('ERROR_WRONG_PASSWORD')) {
+                                          error = 'Λάθος Κωδικός Πρόσβασης.';
+                                          _showErrorDialog(error);
+                                        }
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Wrapper(
+                                                    apoPou: eimaiSign,
+                                                  )),
+                                        );
                                       }
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                    }
+                                    });
                                   }
                                 } catch (e) {
                                   print('${e.toString()}');

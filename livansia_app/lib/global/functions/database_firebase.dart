@@ -151,26 +151,31 @@ class DatabaseService {
 
   //user data from snapshot
 
-  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+  UserData? _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    UserData? userData;
     final ref = questionnaireCol.doc(uid).withConverter(
           fromFirestore: UserData.fromFirestore,
           toFirestore: (UserData city, _) => city.toFirestore(),
         );
-// final docSnap =  ref.get().then((value) => null);
-    // UserData userData=UserData();
+    ref.get().then((value) {
+      DocumentSnapshot<UserData> docSnap = value;
+      userData = docSnap.data();
+    });
+
     // userData.uid = uid;
     // userData = UserData.fromFirestore
-    return UserData(
-        uid: uid,
-        dedomena: snapshot['$dAfter'],
-        input: snapshot['$dAfter '],
-        parousies: snapshot['Attendance'],
-        // questionsAnswer: snapshot.data['$date'],
-        score: snapshot['score'],
-        // am: snapshot.data['AM'],
-        gender: snapshot['Gender'],
-        born: snapshot['Birth_Date'],
-        thougths: snapshot['$date thoughts']);
+    return userData;
+    // UserData(
+    //     uid: uid,
+    //     dedomena: ref.['$dAfter'] ?? '',
+    //     input: snapshot['$dAfter '] ?? '',
+    //     parousies: snapshot['Attendance'],
+    //     // questionsAnswer: snapshot.data['$date'],
+    //     score: snapshot['score'],
+    //     // am: snapshot.data['AM'],
+    //     gender: snapshot['Gender'],
+    //     born: snapshot['Birth_Date'],
+    //     thougths: snapshot['$date thoughts']);
   }
 
   // Stream<List<GetAnswers>> get answers {
@@ -178,8 +183,10 @@ class DatabaseService {
   // }
 
   //get user doc stream
-  Stream<UserData> get userData {
+  Stream<UserData?> get userData {
     //questionnaireCol.doc(uid).snapshots().map(
-    return questionnaireCol.doc(uid).snapshots().map(_userDataFromSnapshot);
+    Stream<UserData?> streamApp =
+        questionnaireCol.doc(uid).snapshots().map(_userDataFromSnapshot);
+    return streamApp;
   }
 }

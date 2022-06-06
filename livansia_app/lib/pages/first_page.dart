@@ -6,12 +6,12 @@ import 'package:livansia_app/pages/user_consent.dart';
 import '../global/animated_logo_container.dart';
 import 'authenticate_firebase/sign_in.dart';
 
-class AuthScreen extends StatefulWidget {
+class FirstScreen extends StatefulWidget {
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  _FirstScreenState createState() => _FirstScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _FirstScreenState extends State<FirstScreen> {
   static const routeName = '/auth';
 
   bool showSignIn = true;
