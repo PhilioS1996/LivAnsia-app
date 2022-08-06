@@ -1,7 +1,7 @@
 import '../helpers/imports.dart';
 
-class LoagingSpin extends StatelessWidget {
-  LoagingSpin({Key? key}) : super(key: key);
+class LoadingSpin extends StatelessWidget {
+  const LoadingSpin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

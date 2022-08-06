@@ -66,7 +66,7 @@ class _RegisterState extends State<Register> {
     final deviceSize = MediaQuery.of(context).size;
 
     return loading
-        ? LoagingSpin()
+        ? const LoadingSpin()
         : Scaffold(
             body: SingleChildScrollView(
               child: Container(

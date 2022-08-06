@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:livansia_app/global/functions/database_questions_firestore.dart';
 import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/wrapper.dart';
+import 'package:livansia_app/providers/questions_provider.dart';
 import 'package:livansia_app/providers/user_provider.dart';
 import 'package:livansia_app/services/authedication_service.dart';
 
@@ -22,6 +24,12 @@ void main() async {
         ),
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider<DatabaseService2>(
+          create: (context) => DatabaseService2(),
+        ),
+        ChangeNotifierProvider<QuestionsProvider>(
+          create: (context) => QuestionsProvider(),
         )
       ],
       child: const MyApp(),
@@ -83,7 +91,7 @@ class _MyAppState extends State<MyApp> {
                 } else if (snapshot.connectionState == ConnectionState.none) {
                   return const Text("No data");
                 }
-                return LoagingSpin();
+                return const LoadingSpin();
               }),
     );
   }

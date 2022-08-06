@@ -97,7 +97,7 @@ class _SignInState extends State<SignIn> {
     final deviceSize = MediaQuery.of(context).size;
 
     return loading
-        ? LoagingSpin()
+        ? const LoadingSpin()
         : Scaffold(
             body: Container(
               padding: const EdgeInsets.symmetric(

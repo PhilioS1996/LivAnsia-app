@@ -11,13 +11,16 @@ import '../../global/app_drawer.dart';
 import '../../global/functions/database_firebase.dart';
 import '../../global/loading.dart';
 import '../../models/users.dart';
+import '../questions/questionnaire_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
+
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  State<WelcomeScreen> createState() => WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class WelcomeScreenState extends State<WelcomeScreen> {
   final _formKey = GlobalKey<FormState>();
   //final FirebaseAuth _auth = FirebaseAuth.instance;
   // late User user1;
@@ -238,11 +241,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                       onPressed: () async {
-                        // Navigator.push(
-                        //   context,
-                        //   new MaterialPageRoute(
-                        //       builder: (context) => Questionnaire()),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Questionnaire()),
+                        );
                       },
                     ),
                     Row(

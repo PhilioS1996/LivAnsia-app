@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:livansia_app/models/users.dart';
 
+import '../../models/getAnswers.dart';
+
 List atte = [];
 //List katiii;
 
@@ -62,21 +64,22 @@ class DatabaseService {
 
 //FieldValue.arrayUnion(questionsAnswer)
 
-  // Future updateUserData(List dedomena) async {
-  //   dateAfter = DateTime.now();
+  Future<void> updateUserData(List dedomena) async {
+    dateAfter = DateTime.now();
 
-  //   if (dateAfter.isAfter(date1) && answers != null) {
-  //     var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
+    if (dateAfter.isAfter(date1)) {
+      //&& answers != null
+      var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
 
-  //     return await questionnaireCol.doc(uid).update({
-  //       '$dAfter ': dedomena,
-  //     });
-  //   } else {
-  //     return await questionnaireCol.doc(uid).update({
-  //       '$date ': dedomena,
-  //     });
-  //   }
-  // }
+      await questionnaireCol.doc(uid).update({
+        '$dAfter ': dedomena,
+      });
+    } else {
+      await questionnaireCol.doc(uid).update({
+        '$date ': dedomena,
+      });
+    }
+  }
 
   Future updateUserDataS(int score) async {
     dateAfter = DateTime.now();
