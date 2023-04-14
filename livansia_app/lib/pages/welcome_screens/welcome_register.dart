@@ -41,11 +41,11 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
     if (!_isButtonDisCal && !_isButtonDisGen) {
       //if (!_isButtonDisGen) {
       res = true;
-      print('to res einai $res');
+      // print('to res einai $res');
       return res;
       //}
     } else {
-      print('to res einai $res');
+      // print('to res einai $res');
       return res;
     }
   }

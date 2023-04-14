@@ -1,9 +1,8 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'dart:math' as math;
 import '../helpers/imports.dart';
 
 class AnimateLogo extends StatefulWidget {
-  AnimateLogo({Key? key}) : super(key: key);
+  const AnimateLogo({Key? key}) : super(key: key);
 
   @override
   State<AnimateLogo> createState() => _AnimateLogoState();
@@ -55,7 +54,7 @@ Widget titleTop(BuildContext context) {
     child: Container(
       width: MediaQuery.of(context).size.width / 1.4,
       height: MediaQuery.of(context).size.height / 2.6,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
           color: Colors.grey[100],
           borderRadius: const BorderRadius.only(

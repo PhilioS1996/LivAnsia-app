@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:livansia_app/global/show_snackBar.dart';
+import 'package:livansia_app/pages/first_page.dart';
 
 import '../global/functions/database_firebase.dart';
 import '../helpers/imports.dart';
@@ -20,7 +21,11 @@ class AuthService with ChangeNotifier {
   }
 
   void setUserSignIn() {
-    userSignIn = FirebaseAuth.instance.currentUser!;
+    if (FirebaseAuth.instance.currentUser != null) {
+      userSignIn = FirebaseAuth.instance.currentUser!;
+    } else {
+      userSignIn = null;
+    }
     //notifyListeners();
   }
 
@@ -81,11 +86,13 @@ class AuthService with ChangeNotifier {
   Future signOut() async {
     try {
       //_timer.cancel();
-
+      if (_auth == null) {
+        return FirstScreen();
+      }
       return await _auth!.signOut();
     } catch (e) {
       if (kDebugMode) {
-        print(e.toString());
+        print(' signOut Error : ${e.toString()}');
       }
       return null;
     }

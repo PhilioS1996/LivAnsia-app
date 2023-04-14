@@ -192,7 +192,7 @@ class _SignInState extends State<SignIn> {
                                       if (resultUser is! Users) {
                                         if (resultUser
                                             .toString()
-                                            .contains('ERROR_USER_NOT_FOUND')) {
+                                            .contains('user-not-found')) {
                                           error =
                                               'Δεν βρέθηκε χρήστης με αυτό το email.';
                                           _showErrorDialog(error);

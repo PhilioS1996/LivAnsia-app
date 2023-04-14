@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:livansia_app/models/users.dart';
 
-import '../../models/getAnswers.dart';
+// import '../../models/getAnswers.dart';
 
 List atte = [];
 //List katiii;
@@ -40,7 +40,6 @@ class DatabaseService {
   }
 
   Future upEvent(DateTime timeDay) async {
-    print('eftaaaaaaaaaaaa');
     var hmer = DateFormat.yMMMd().add_jm().format(timeDay);
     return questionnaireEvents.doc(uid).collection('Events').doc('$hmer').set({
       'date': timeDay,

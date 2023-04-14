@@ -35,8 +35,8 @@ class _SliderWidgetState extends State<SliderWidget> {
       color: Theme.of(context).selectedRowColor,
       elevation: 2,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        width: 250,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

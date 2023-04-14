@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:livansia_app/helpers/imports.dart';
 
 import '../../models/get_quest.dart';
-import '../../models/getQuote.dart';
+// import '../../models/getQuote.dart';
 
 class DatabaseService2 with ChangeNotifier {
   final CollectionReference questionnaireCol =

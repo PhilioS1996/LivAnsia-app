@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-
+import '../helpers/imports.dart';
+import '../pages/wrapper.dart';
 import '../services/authedication_service.dart';
 
 class AppDrawer extends StatelessWidget {
-  final AuthService _auth = AuthService();
+  final AuthService authService = AuthService();
+  FirebaseAuth auth = FirebaseAuth.instance;
 
+  AppDrawer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -87,15 +89,12 @@ class AppDrawer extends StatelessWidget {
             thickness: 0.75,
           ),
           ListTile(
-            // Log Out.
-            title: const Text('Έξοδος'),
-            trailing: const Icon(Icons.exit_to_app),
-            onTap: () async {
-              // await _auth.signOut();
-              // Navigator.push(context,
-              //     new MaterialPageRoute(builder: (context) => Wrapper(apoPou: true)));
-            },
-          ),
+              // Log Out.
+              title: const Text('Έξοδος'),
+              trailing: const Icon(Icons.exit_to_app),
+              onTap: () async {
+                await _signOutAndNavigateToWrapper(context);
+              }),
           Divider(
             color: Colors.indigo[200],
             thickness: 0.75,
@@ -103,5 +102,13 @@ class AppDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Define the function to sign out and navigate to the wrapper
+  Future<void> _signOutAndNavigateToWrapper(BuildContext context) async {
+    await auth.signOut();
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => Wrapper(apoPou: false)));
   }
 }

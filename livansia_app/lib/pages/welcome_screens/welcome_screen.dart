@@ -177,8 +177,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         ),
         drawer: AppDrawer(),
         body: StreamBuilder<UserData?>(
-            stream:
-                DatabaseService(uid: authServiceProv.userSignIn!.uid).userData,
+            stream: DatabaseService(uid: authServiceProv.userSignIn?.uid ?? '')
+                .userData,
             builder: (context, snapshot) {
               return Container(
                 height: MediaQuery.of(context).size.height,

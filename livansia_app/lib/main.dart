@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:livansia_app/global/functions/database_questions_firestore.dart';
-import 'package:livansia_app/pages/first_page.dart';
+// import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/wrapper.dart';
 import 'package:livansia_app/providers/questions_provider.dart';
 import 'package:livansia_app/providers/user_provider.dart';
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
     //await languageNotifier.getLocale();
 
     //What is _loading : the start page as we wait for data to set, loader showed.
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _loading = false;
       });

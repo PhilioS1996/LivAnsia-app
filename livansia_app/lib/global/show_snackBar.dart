@@ -1,3 +1,4 @@
+// ignore: file_names
 import '../helpers/imports.dart';
 
 void showSnackbar(BuildContext context, String text,
@@ -8,6 +9,7 @@ void showSnackbar(BuildContext context, String text,
       duration: dur,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5))),
+      // ignore: sized_box_for_whitespace
       content: Container(
           height: 25,
           child: Center(
