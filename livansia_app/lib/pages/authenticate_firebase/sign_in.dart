@@ -231,7 +231,7 @@ class _SignInState extends State<SignIn> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                new MaterialPageRoute(
+                                MaterialPageRoute(
                                     builder: (context) =>
                                         Register(toggleView: toggleView)),
                               );

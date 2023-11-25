@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_register.dart';
+import 'package:livansia_app/providers/questions_provider.dart';
 import 'package:livansia_app/providers/user_provider.dart';
 import 'package:livansia_app/services/authedication_service.dart';
 
@@ -150,6 +151,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final authServiceProv = Provider.of<AuthService>(context, listen: true);
+    final questionProv = Provider.of<QuestionsProvider>(context, listen: false);
+
     authServiceProv.setUserSignIn();
     try {
       // return StreamBuilder<User>(
@@ -166,14 +169,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       return Scaffold(
         // backgroundColor: Colors.blue[50],
         appBar: AppBar(
+          iconTheme: const IconThemeData(
+              color: Colors.black87), // Set the desired color for the icon,
           backgroundColor: Colors.teal[100],
           centerTitle: true,
-          title: const Image(
-              width: 50,
-              image: AssetImage(
-                "assets/6logo.png",
-              ),
-              fit: BoxFit.cover),
         ),
         drawer: AppDrawer(),
         body: StreamBuilder<UserData?>(
@@ -188,8 +187,15 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const SizedBox(
-                      height: 126,
+                      height: 26,
                     ),
+                    const Image(
+                        width: 100,
+                        image: AssetImage(
+                          "assets/6logo.png",
+                        ),
+                        fit: BoxFit.cover),
+                    const SizedBox(height: 60),
                     Text(
                       'Καλώς Όρισες ',
                       style: Theme.of(context)
@@ -213,10 +219,11 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                       onPressed: () => showTextField(
                           snapshot.data, authServiceProv.userSignIn!),
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 40),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.grey[300], onPrimary: Colors.white),
+                          foregroundColor: Colors.black87,
+                          backgroundColor: Colors.grey[300]),
                       icon: const Icon(Icons.calendar_today),
                       label: const Text('Ημερολόγιο Καταχώρησης'),
                       onPressed: () {
@@ -231,11 +238,12 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                     const SizedBox(height: 5.0),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.teal[100],
+                        backgroundColor: Colors.teal[100],
                       ),
                       child: const Text(
                         'Νέα Καταχώρηση',
                         style: TextStyle(
+                          color: Colors.black87,
                           fontSize: 19,
                           fontWeight: FontWeight.w500,
                         ),
@@ -244,7 +252,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Questionnaire()),
+                            builder: (context) => const Questionnaire(),
+                          ),
                         );
                       },
                     ),

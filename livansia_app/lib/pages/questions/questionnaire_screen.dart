@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:livansia_app/global/loading.dart';
@@ -29,14 +31,18 @@ class _QuestionnaireState extends State<Questionnaire> {
         Provider.of<QuestionsProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+            color: Colors.black87), // Set the desired color for the icon,
         backgroundColor: Colors.teal[100],
-        centerTitle: true,
-        title: const Image(
-            width: 50,
-            image: AssetImage(
-              "assets/6logo.png",
-            ),
-            fit: BoxFit.cover),
+        // centerTitle: true,
+        title: const Text('Ερωτήσεις',
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.black87)),
+        // const Image(
+        //     width: 50,
+        //     image: AssetImage(
+        //       "assets/6logo.png",
+        //     ),
+        //     fit: BoxFit.cover),
         actions: <Widget>[
           IconButton(
             //iconSize: 30,
@@ -62,36 +68,58 @@ class _QuestionnaireState extends State<Questionnaire> {
           if (!snapshot.hasData) {
             return const LoadingSpin();
           }
+          questionsProvider.setSliderAnswersList(snapshot.data!.docs.length);
           return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Column(
               children: <Widget>[
-                Text(
-                  'Μετακίνησε το slider στην βαθμίδα που σε αντιπροσωπεύει.',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .apply(fontSizeFactor: 0.9),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Μετακίνησε το slider στην βαθμίδα που σε αντιπροσωπεύει.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                    ),
+                    //textAlign: TextAlign.center,
+                  ),
                 ),
-                const SizedBox(height: 38),
-
-                Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final document = snapshot.data!.docs[index];
-                        final name = document['name'];
-                        return QuestionTile(
-                          question1: document,
-                          index: index,
-                        );
-                      },
-                    )),
-
+                Divider(
+                  color: Colors.grey[300],
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final document = snapshot.data!.docs[index];
+                    // final name = document['name'];
+                    return QuestionTile(
+                      question1: document,
+                      index: index,
+                    );
+                  },
+                ),
                 const SizedBox(
                   height: 30,
                 ),
-                // const BottomThoughtBox(),
+                const BottomThoughtBox(),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.teal[100],
+                  ),
+                  child: const Text(
+                    'Show Answers Array',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onPressed: () async {
+                    questionsProvider.printSliderAnswers(context);
+                  },
+                )
               ],
             ),
           );
@@ -173,7 +201,7 @@ void _showInfo(BuildContext context) {
               ),
               TextSpan(
                 text:
-                    '\nΥποσημείωση: για την επιλογή "Καθόλου" χρειάζεται να μετακινηθεί το slider αρχικά μπροστά και έπειτα σε αυτή τη βαθμίδα.',
+                    '\nΥποσημείωση: για την επιλογή "Καθόλου" χρειάζεται να επιλεχθεί το slider!',
                 style: TextStyle(
                   fontSize: 12,
                 ),
@@ -181,17 +209,17 @@ void _showInfo(BuildContext context) {
             ]),
       ),
       actions: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.indigo[200],
-            borderRadius: BorderRadius.circular(18),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.indigo[200],
           ),
-          child: ElevatedButton(
-            child: const Text('Εντάξει'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
+          child: const Text(
+            'Εντάξει',
+            // style: TextStyle(color: Colors.black87),
           ),
+          onPressed: () {
+            Navigator.of(ctx).pop();
+          },
         )
       ],
     ),

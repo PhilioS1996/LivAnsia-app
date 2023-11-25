@@ -14,19 +14,29 @@ class AppDrawer extends StatelessWidget {
         //Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.teal[100],
-            ),
-            child: const Text(
-              'Menu',
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 20,
-              ),
-            ),
+          const DrawerHeader(
+            // decoration: BoxDecoration(
+            //   color: Colors.teal[100],
+            // ),
+            child: Image(
+                width: 50,
+                image: AssetImage(
+                  "assets/6logo.png",
+                ),
+                fit: BoxFit.contain),
+            // const Text(
+            //   'Menu',
+            //   style: TextStyle(
+            //     fontStyle: FontStyle.italic,
+            //     fontWeight: FontWeight.bold,
+            //     color: Colors.black,
+            //     fontSize: 20,
+            //   ),
+            // ),
+          ),
+          Divider(
+            color: Colors.indigo[200],
+            thickness: 0.75,
           ),
           ListTile(
             title: const Text('Σχετικά'),

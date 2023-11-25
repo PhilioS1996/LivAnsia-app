@@ -13,7 +13,7 @@ class QuestionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 3.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -42,7 +42,7 @@ class QuestionTile extends StatelessWidget {
                 title: Text(
                   question1['name'],
                   style: const TextStyle(
-                    fontSize: 12.5,
+                    fontSize: 16,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.w500,
                   ),

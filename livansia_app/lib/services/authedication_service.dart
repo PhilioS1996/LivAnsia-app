@@ -69,7 +69,8 @@ class AuthService with ChangeNotifier {
       userInstance = result.user;
 
       //creates a new document for the user with uid
-      await DatabaseService(uid: userInstance!.uid).setUserData([], [], '', '');
+      await DatabaseService(uid: userInstance!.uid)
+          .setUserDataNew([], [], '', '');
       // await DatabaseService(uid: user.uid).setUserEvents(null);
 
       return _userFromFirebaseUser(userInstance!);

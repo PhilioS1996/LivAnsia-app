@@ -15,7 +15,8 @@ class DatabaseService {
   //collection reference
   final CollectionReference questionnaireCol =
       FirebaseFirestore.instance.collection('Answers');
-
+  final CollectionReference answersCollection =
+      FirebaseFirestore.instance.collection('Answers2');
   final CollectionReference questionnaireEvents =
       FirebaseFirestore.instance.collection('Answers');
 
@@ -53,7 +54,7 @@ class DatabaseService {
     String gender,
     String born,
   ) async {
-    return await questionnaireCol.doc(uid).set({
+    return await answersCollection.doc(uid).set({
       '$dAfter dedomena': dedomena,
       //'AM': am,
       'Gender': gender,
@@ -61,29 +62,52 @@ class DatabaseService {
     });
   }
 
+  Future setUserDataNew(
+    List dedomena,
+    attendance,
+    //String am,
+    String gender,
+    String born,
+  ) async {
+    return await answersCollection.doc(uid).set({
+      'Data': dedomena,
+      //'AM': am,
+      'Gender': gender,
+      'Birth_Date': born,
+    });
+  }
 //FieldValue.arrayUnion(questionsAnswer)
 
   Future<void> updateUserData(List dedomena) async {
-    dateAfter = DateTime.now();
+    final DocumentReference docRef = answersCollection.doc(uid);
+    docRef.get().then((DocumentSnapshot docSnapshot) async {
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>;
+        final List<dynamic> list = data['Data'] ?? [];
+        final int length = list.length;
+        print(length);
+        dateAfter = DateTime.now();
 
-    if (dateAfter.isAfter(date1)) {
-      //&& answers != null
-      var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
+        if (dateAfter.isAfter(date1)) {
+          //&& answers != null
+          var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
 
-      await questionnaireCol.doc(uid).update({
-        '$dAfter ': dedomena,
-      });
-    } else {
-      await questionnaireCol.doc(uid).update({
-        '$date ': dedomena,
-      });
-    }
+          await answersCollection.doc(uid).update({
+            '$dAfter ': dedomena.toList(),
+          });
+        } else {
+          await answersCollection.doc(uid).update({
+            '$date ': dedomena.toList(),
+          });
+        }
+      }
+    });
   }
 
   Future updateUserDataS(int score) async {
     dateAfter = DateTime.now();
     var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
-    return await questionnaireCol.doc(uid).update({
+    return await answersCollection.doc(uid).update({
       '$dAfter score': score,
     });
   }
@@ -98,7 +122,7 @@ class DatabaseService {
 
     attendance.add(tday);
 
-    return await questionnaireCol.doc(uid).update(
+    return await answersCollection.doc(uid).update(
       {
         'Attendance': attendance,
       },
@@ -107,7 +131,7 @@ class DatabaseService {
 
   Future updateUserInfo(String gender, String born) async {
     // final List<GetQuest> mikos =new List<GetQuest>();
-    return await questionnaireCol.doc(uid).update({
+    return await answersCollection.doc(uid).update({
       'Gender': gender,
       'Birth_Date': born,
     });
@@ -115,7 +139,7 @@ class DatabaseService {
 
   // Future updateUserAM(String am) async {
   //   // final List<GetQuest> mikos =new List<GetQuest>();
-  //   return await questionnaireCol.document(uid).update({
+  //   return await answersCollection.document(uid).update({
   //     'AM': am,
   //   });
   // }
@@ -124,7 +148,7 @@ class DatabaseService {
     dateAfter = DateTime.now();
     String dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
 
-    return await questionnaireCol.doc(uid).update({
+    return await answersCollection.doc(uid).update({
       '$dAfter thoughts': thoughts,
     });
   }
@@ -155,7 +179,7 @@ class DatabaseService {
 
   UserData? _userDataFromSnapshot(DocumentSnapshot snapshot) {
     UserData? userData;
-    final ref = questionnaireCol.doc(uid).withConverter(
+    final ref = answersCollection.doc(uid).withConverter(
           fromFirestore: UserData.fromFirestore,
           toFirestore: (UserData city, _) => city.toFirestore(),
         );
@@ -181,14 +205,14 @@ class DatabaseService {
   }
 
   // Stream<List<GetAnswers>> get answers {
-  //   return questionnaireCol.snapshots().map(_answersFromSnapshots);
+  //   return answersCollection.snapshots().map(_answersFromSnapshots);
   // }
 
   //get user doc stream
   Stream<UserData?> get userData {
-    //questionnaireCol.doc(uid).snapshots().map(
+    //answersCollection.doc(uid).snapshots().map(
     Stream<UserData?> streamApp =
-        questionnaireCol.doc(uid).snapshots().map(_userDataFromSnapshot);
+        answersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
     return streamApp;
   }
 }

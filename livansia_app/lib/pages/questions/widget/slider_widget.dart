@@ -24,12 +24,20 @@ class _SliderWidgetState extends State<SliderWidget> {
   ];
   int _value = 1;
   int countText = 0;
+
   @override
   Widget build(BuildContext context) {
     final questionsProvider =
         Provider.of<QuestionsProvider>(context, listen: true);
     return Card(
       shape: RoundedRectangleBorder(
+        side: countText == 0
+            ? BorderSide.none
+            : const BorderSide(
+                color: Color.fromARGB(
+                    45, 0, 150, 135), // Defines the color of the border
+                width: 2.0, // Defines the width of the border
+              ),
         borderRadius: BorderRadius.circular(20.0),
       ),
       color: Theme.of(context).selectedRowColor,
@@ -62,8 +70,8 @@ class _SliderWidgetState extends State<SliderWidget> {
                   _value = value.toInt();
                   countText = _value;
                 });
-                questionsProvider.setValuePickedSlider(
-                    value.toInt(), widget.index);
+
+                questionsProvider.setValuePickedSlider(_value, widget.index);
               },
             ),
 
@@ -71,6 +79,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             Center(
               child: PickedText(
                 word: rangeT[countText],
+                countTextVal: countText,
               ),
             ),
             //SizedBox(height: 3),
