@@ -93,15 +93,16 @@ class _RegisterState extends State<Register> {
                             const SizedBox(height: 20.0),
                             TextFormField(
                               decoration: const InputDecoration(
-                                hintText: 'Email',
-                                helperText: '(διεύθυνση ceid webmail)',
+                                hintText: 'Nickname',
+                                // helperText: '(διεύθυνση ceid webmail)',
                               ),
                               keyboardType: TextInputType.emailAddress,
                               validator: (val) => val!.isEmpty
-                                  ? 'Καταχώρησε την ηλεκτρονική σου διεύθυνση'
+                                  ? 'Καταχώρησε ένα όνομα για το χρήστη.'
                                   : null,
                               onChanged: (val) {
-                                setState(() => email = val);
+                                setState(() =>
+                                    email = '${val.toLowerCase()}@example.com');
                               },
                             ),
                             const SizedBox(height: 20.0),
@@ -160,61 +161,74 @@ class _RegisterState extends State<Register> {
                             const SizedBox(
                               height: 20.0,
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30.0, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.teal[100],
-                                borderRadius: BorderRadius.circular(18.0),
+                            // Container(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       horizontal: 30.0, vertical: 4),
+                            //   decoration: BoxDecoration(
+                            //     color: Colors.teal[100],
+                            //     borderRadius: BorderRadius.circular(18.0),
+                            //   ),
+                            //   child:
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                backgroundColor: Colors.teal[100],
                               ),
-                              child: ElevatedButton(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0, vertical: 4),
                                 child: const Text(
                                   'Εγγραφή',
                                   style: TextStyle(color: Colors.black54),
                                 ),
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => loading = true);
-                                    await _auth
-                                        .registerWithEmailAndPassword(
-                                            email, password, context)
-                                        .then((result) {
-                                      if (result is! Users) {
-                                        if (kDebugMode) {
-                                          print('$result');
-                                        }
-                                        if (result
-                                            .toString()
-                                            .contains('ERROR_INVALID_EMAIL')) {
-                                          error =
-                                              'Λανθασμένη σύνταξη του email.';
-                                          _showErrorDialog(error);
-                                        } else if (result.toString().contains(
-                                            'ERROR_EMAIL_ALREADY_IN_USE')) {
-                                          error =
-                                              'Υπάρχει ήδη χρήστης με αυτό το email.';
-                                          _showErrorDialog(error);
-                                        }
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                      } else {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Wrapper(
-                                                    apoPou: eimaiRegister,
-                                                  )
-                                              //WelcomeScreen(),
-                                              ),
-                                        );
-                                      }
-                                    });
-                                  }
-                                },
                               ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() => loading = true);
+                                  await _auth
+                                      .registerWithEmailAndPassword(
+                                          email, password, context)
+                                      .then((result) {
+                                    if (result is! Users) {
+                                      if (kDebugMode) {
+                                        print('$result');
+                                      }
+                                      if (result
+                                          .toString()
+                                          .contains('ERROR_INVALID_EMAIL')) {
+                                        error = 'Λανθασμένη σύνταξη του email.';
+                                        _showErrorDialog(error);
+                                      } else if (result.toString().contains(
+                                          'ERROR_EMAIL_ALREADY_IN_USE')) {
+                                        error =
+                                            'Υπάρχει ήδη χρήστης με αυτό το email.';
+                                        _showErrorDialog(error);
+                                      }
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Wrapper(
+                                                  apoPou: eimaiRegister,
+                                                )
+                                            //WelcomeScreen(),
+                                            ),
+                                      );
+                                    }
+                                  });
+                                }
+                              },
                             ),
-                            ElevatedButton(
+                            // ),
+                            TextButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                              ),
                               child: Text(
                                 'Είσοδος',
                                 style: TextStyle(
@@ -223,7 +237,7 @@ class _RegisterState extends State<Register> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  new MaterialPageRoute(
+                                  MaterialPageRoute(
                                       builder: (context) =>
                                           SignIn(toggleView: toggleView)),
                                 );

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 
@@ -25,14 +26,14 @@ class WelcomeRegister extends StatefulWidget {
 class _WelcomeRegisterState extends State<WelcomeRegister> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-
+  final ageTextController = TextEditingController();
   bool _isButtonDisGen = true;
   //bool _isButtonDisAm = true;
-
+  Gender selectedGender = Gender.Female;
   String _selectedDate = 'Πάτα για επιλογή';
-
+  int selectedOptionJob = 0;
   String? genderType = '';
-  //Gender genos;
+
   int _radioValue1 = -1;
   // int _radioValue2 = -1;
 
@@ -50,20 +51,12 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
     }
   }
 
-  // void _handleradiobutton1(int value) {
-  //   setState(() => _isButtonDisGen = false);
-  //   setState(() {
-  //     _radioValue1 = value;
-  //     switch (_radioValue1) {
-  //       case 0:
-  //         genderType = 'Άνδρας';
-
-  //         break;
-  //       case 1:
-  //         genderType = 'Γυναίκα';
-  //     }
-  //   });
-  // }
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    ageTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,191 +99,329 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                 'Καλώς Όρισες ',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .apply(fontSizeFactor: 1.4),
               ),
               const SizedBox(height: 15),
               Text('Πρίν Ξεκινήσεις Συμπλήρωσε τα Πεδία: ',
-                  style: Theme.of(context).textTheme.bodyText1
+                  style: Theme.of(context).textTheme.bodyLarge
                   //.apply(fontSizeFactor: 1.5),
                   ),
               const SizedBox(height: 50),
-              Container(
-                width: 300,
-                height: 190,
-                decoration: BoxDecoration(
-                  color: Colors.white24,
-                  border: Border.all(
-                    color: Colors.teal.shade100,
-                    width: 2,
+              Card(
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Color.fromARGB(
+                        45, 0, 150, 135), // Defines the color of the border
+                    width: 2.0, // Defines the width of the border
                   ),
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: Form(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const SizedBox(height: 9),
-                      Row(
-                        children: const <Widget>[
-                          SizedBox(
-                            width: 23,
-                          ),
-                          Text(
-                            'Ημερομηνία Γεννησης:',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.indigo.shade100,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            InkWell(
-                              child: Text(
-                                _selectedDate,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
+                // color: Colors.grey[300],
+                elevation: 3,
+                child: Container(
+                  width: 350,
+                  // height: 190,
+                  decoration: BoxDecoration(
+                    color: Colors.white24,
+                    // border: Border.all(
+                    //   color: Colors.teal.shade100,
+                    //   width: 2,
+                    // ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        // const SizedBox(height: 9),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              const Text(
+                                'Ηλικία:',
+                                style: TextStyle(
                                   fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              onTap: () {
-                                _selectDate(context);
-                              },
-                            ),
-                            const SizedBox(
-                              width: 9,
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.calendar_today),
-                              tooltip: 'Πάτα για επιλογή',
-                              onPressed: () {
-                                _selectDate(context);
-                              },
-                            ),
-                          ],
+                              // const SizedBox(width: 10),
+                              Container(
+                                width: 140,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.indigo.shade100,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                                child: TextField(
+                                  controller: ageTextController,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      GenderPickerWithImage(
-                        showOtherGender: true,
-                        verticalAlignedText: false,
-                        selectedGender: Gender.Female,
-                        selectedGenderTextStyle: const TextStyle(
-                            color: Color(0xFF8b32a8),
-                            fontWeight: FontWeight.bold),
-                        unSelectedGenderTextStyle: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.normal),
-                        onChanged: (gender) {
-                          if (kDebugMode) {
-                            print('---------${gender?.name}');
-                            setState(() {
-                              genderType = gender?.name;
-                              _isButtonDisGen = false;
-                            });
-                          }
-                        },
-                        equallyAligned: true,
-                        animationDuration: Duration(milliseconds: 300),
-                        isCircular: true,
-                        // default : true,
-                        opacityOfGradient: 0.4,
-                        padding: const EdgeInsets.all(3),
-                        size: 50, //default : 40
-                      )
-                      // Row(
-                      //   children:const <Widget>[
-                      //     SizedBox(
-                      //       width: 25,
-                      //     ),
-                      //     Text(
-                      //       'Φύλο:',
-                      //       style: TextStyle(
-                      //         fontSize: 15,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Radio(
-                      //       activeColor: Colors.teal[100],
-                      //       value: 0,
-                      //       groupValue: _radioValue1,
-                      //       onChanged: _handleradiobutton1,
-                      //     ),
-                      //   const  Text(
-                      //       'Άνδρας',
-                      //       style: TextStyle(
-                      //         fontSize: 15,
-                      //       ),
-                      //     ),
-                      //     Radio(
-                      //       activeColor: Colors.teal[100],
-                      //       value: 1,
-                      //       groupValue: _radioValue1,
-                      //       onChanged: _handleradiobutton1,
-                      //     ),
-                      //  const   Text(
-                      //       'Γυναίκα',
-                      //       style: TextStyle(
-                      //         fontSize: 15,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
+                          child: SizedBox(
+                            width: 310,
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Radio<int>(
+                                  value: 1,
+                                  groupValue: selectedOptionJob,
+                                  activeColor: Colors.indigo.shade400,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOptionJob = value!;
+                                    });
+                                  },
+                                ),
+                                Text('Option 1'),
+                                Radio<int>(
+                                  value: 2,
+                                  groupValue: selectedOptionJob,
+                                  activeColor: Colors.indigo.shade400,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOptionJob = value!;
+                                    });
+                                  },
+                                ),
+                                Text('Option 2'),
+                                Radio<int>(
+                                  value: 3,
+                                  groupValue: selectedOptionJob,
+                                  activeColor: Colors.indigo.shade400,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOptionJob = value!;
+                                    });
+                                  },
+                                ),
+                                Text('Option 3'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Φύλο:',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 140,
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                width: 320,
+                                child: GenderPickerWithImage(
+                                  showOtherGender: true,
+                                  verticalAlignedText: false,
+                                  selectedGender: selectedGender,
+                                  selectedGenderTextStyle: const TextStyle(
+                                      color: Color(0xFF8b32a8),
+                                      fontWeight: FontWeight.bold),
+                                  unSelectedGenderTextStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal),
+                                  onChanged: (gender) {
+                                    if (kDebugMode) {
+                                      print('---------${gender?.name}');
+                                      setState(() {
+                                        genderType = gender?.name;
+                                        selectedGender = gender!;
+                                        _isButtonDisGen = false;
+                                      });
+                                    }
+                                  },
+                                  equallyAligned: true,
+                                  animationDuration:
+                                      Duration(milliseconds: 300),
+                                  isCircular: true,
+                                  // default : true,
+                                  opacityOfGradient: 0.4,
+                                  padding: const EdgeInsets.all(3),
+                                  size: 50, //default : 40
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 20),
+                          child: SizedBox(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Χρησιμοποιείς κάποιο/α ενεργά?',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/facebook-svg.svg',
+                                      semanticsLabel: 'Your SVG Image',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/x-social-media-black-icon.svg',
+                                      semanticsLabel: 'Your SVG Image',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/instagram-svg.svg',
+                                      semanticsLabel: 'Your SVG Image',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/linkedin-svg.svg',
+                                      semanticsLabel: 'Your SVG Image',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/tiktok-svg.svg',
+                                      semanticsLabel: 'Your SVG Image',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/youtube-svg.svg',
+                                      semanticsLabel: 'Your SVG Image',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  width: 300,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Radio<int>(
+                                        value: 1,
+                                        groupValue: selectedOptionJob,
+                                        activeColor: Colors.indigo.shade400,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedOptionJob = value!;
+                                          });
+                                        },
+                                      ),
+                                      const Text('Ναί'),
+                                      Radio<int>(
+                                        value: 0,
+                                        groupValue: selectedOptionJob,
+                                        activeColor: Colors.indigo.shade400,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedOptionJob = value!;
+                                          });
+                                        },
+                                      ),
+                                      const Text('Όχι'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 20.0),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.teal[100],
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  backgroundColor: Colors.teal[100],
                 ),
-                child: ElevatedButton(
-                  onPressed: !allCheck()
-                      ? null
-                      : () async {
-                          await DatabaseService(
-                                  uid: authServiceProv.userSignIn!.uid)
-                              .updateUserInfo(genderType!, born);
+                onPressed: !allCheck()
+                    ? null
+                    : () async {
+                        await DatabaseService(
+                                uid: authServiceProv.userSignIn!.uid)
+                            .updateUserInfo(genderType!, born);
 
-                          // Navigator.push(
-                          //   context,
-                          //   new MaterialPageRoute(
-                          //       builder: (context) =>  Questionnaire()),
-                          // );
-                          // ignore: use_build_context_synchronously
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WelcomeScreen()),
-                          );
-                        },
+                        // Navigator.push(
+                        //   context,
+                        //   new MaterialPageRoute(
+                        //       builder: (context) =>  Questionnaire()),
+                        // );
+                        // ignore: use_build_context_synchronously
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WelcomeScreen()),
+                        );
+                      },
+                child: Container(
+                  width: 310,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0, vertical: 10),
                   child: const Text(
                     'Έναρξη',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.w500,
@@ -310,29 +441,29 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
     // );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final datePick = await showDatePicker(
-        // theme: ThemeData(
-        //   primaryColor: Colors.teal[100],
-        //   //  accentColor: Colors.indigo[100],
-        // ),
-        context: context,
-        initialDate: birthDate,
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now());
-    if (datePick != null) {
-      // && datePick != birthDate
-      setState(() {
-        birthDate = datePick;
-        isDateSelected = true;
-        setState(() => _isButtonDisCal = false);
-        // put it here
-        born =
-            "${birthDate.month}/${birthDate.day}/${birthDate.year}"; // 08/14/2019
-        _selectedDate = born;
-      });
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final datePick = await showDatePicker(
+  //       // theme: ThemeData(
+  //       //   primaryColor: Colors.teal[100],
+  //       //   //  accentColor: Colors.indigo[100],
+  //       // ),
+  //       context: context,
+  //       initialDate: birthDate,
+  //       firstDate: DateTime(1900),
+  //       lastDate: DateTime.now());
+  //   if (datePick != null) {
+  //     // && datePick != birthDate
+  //     setState(() {
+  //       birthDate = datePick;
+  //       isDateSelected = true;
+  //       setState(() => _isButtonDisCal = false);
+  //       // put it here
+  //       born =
+  //           "${birthDate.month}/${birthDate.day}/${birthDate.year}"; // 08/14/2019
+  //       _selectedDate = born;
+  //     });
+  //   }
+  // }
 }
 
 //var newDateTime = DateTime.utc(null);

@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:livansia_app/models/users.dart';
 
+import '../../models/slider_answer_model.dart';
+
 // import '../../models/getAnswers.dart';
 
 List atte = [];
@@ -78,30 +80,56 @@ class DatabaseService {
   }
 //FieldValue.arrayUnion(questionsAnswer)
 
-  Future<void> updateUserData(List dedomena) async {
+  // Future<void> updateUserData(List<SliderAnswers> dedomena) async {
+  //   final DocumentReference docRef = answersCollection.doc(uid);
+  //   docRef.get().then((DocumentSnapshot docSnapshot) async {
+  //     if (docSnapshot.exists) {
+  //       final data = docSnapshot.data() as Map<String, dynamic>;
+  //       final List<dynamic> list = data['Data'] ?? [];
+  //       final int length = list.length;
+  //       print(length);
+  //       dateAfter = DateTime.now();
+
+  //       if (dateAfter.isAfter(date1)) {
+  //         //&& answers != null
+  //         Map answers = {};
+  //         var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
+  //         for (int count = 0; count < dedomena.length; count++) {
+  //           answers[count.toString()] =
+  //               'Box ${dedomena[count].questionIndex} : ${dedomena[count].valueSelected}';
+  //         }
+  //         await answersCollection.doc(uid).update({
+  //           '$dAfter ': answers,
+  //         }, SetOptions(merge: false));
+  //       } else {
+  //         await answersCollection.doc(uid).update({
+  //           '$date ': dedomena.toList(),
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
+// chat gpt
+  Future<void> updateUserData(List<SliderAnswers> dedomena) async {
     final DocumentReference docRef = answersCollection.doc(uid);
-    docRef.get().then((DocumentSnapshot docSnapshot) async {
-      if (docSnapshot.exists) {
-        final data = docSnapshot.data() as Map<String, dynamic>;
-        final List<dynamic> list = data['Data'] ?? [];
-        final int length = list.length;
-        print(length);
-        dateAfter = DateTime.now();
 
-        if (dateAfter.isAfter(date1)) {
-          //&& answers != null
-          var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
+    try {
+      dateAfter = DateTime.now();
+      var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
+      Map<String, dynamic> answers = {};
 
-          await answersCollection.doc(uid).update({
-            '$dAfter ': dedomena.toList(),
-          });
-        } else {
-          await answersCollection.doc(uid).update({
-            '$date ': dedomena.toList(),
-          });
-        }
+      for (int count = 0; count < dedomena.length; count++) {
+        answers[count.toString()] =
+            'Box ${dedomena[count].questionIndex} : ${dedomena[count].valueSelected}';
       }
-    });
+
+      // Set a new field with the current timestamp as the field name
+      await docRef.set({
+        '$dAfter': answers,
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print('Error updating user data: $e');
+    }
   }
 
   Future updateUserDataS(int score) async {

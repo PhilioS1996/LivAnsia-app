@@ -106,7 +106,7 @@ class _QuestionnaireState extends State<Questionnaire> {
                 const BottomThoughtBox(),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.teal[100],
+                    backgroundColor: Colors.teal[100],
                   ),
                   child: const Text(
                     'Show Answers Array',

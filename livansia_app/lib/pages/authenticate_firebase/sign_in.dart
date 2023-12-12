@@ -126,14 +126,15 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(height: 20.0),
                           TextFormField(
                             decoration: const InputDecoration(
-                              hintText: 'Email',
+                              hintText: 'Nickname',
                             ),
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             validator: (val) => val!.isEmpty
-                                ? 'Καταχώρησε την ηλεκτρονική σου διεύθυνση'
+                                ? 'Καταχώρησε ένα όνομα για το χρήστη.'
                                 : null,
                             onChanged: (val) {
-                              setState(() => email = val);
+                              setState(() =>
+                                  email = '${val.toLowerCase()}@example.com');
                               setState(() {
                                 _isButtonDis = !_isButtonDis;
                               });
