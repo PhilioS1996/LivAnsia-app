@@ -8,6 +8,7 @@ import 'package:livansia_app/providers/user_provider.dart';
 
 import '../../global/loading.dart';
 import '../../services/authedication_service.dart';
+import 'widget/forgot_pass_window.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -86,12 +87,6 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  final snackbar = SnackBar(
-    content:
-        const Text('Πρέπει να εισάγεις πρώτα την διεύθυνση του email σου.'),
-    action: SnackBarAction(label: 'Ok', onPressed: () => null),
-  );
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -126,24 +121,34 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(height: 20.0),
                           TextFormField(
                             decoration: const InputDecoration(
-                              hintText: 'Nickname',
+                              hintText: 'Ψευδώνυμο',
                             ),
                             keyboardType: TextInputType.text,
                             validator: (val) => val!.isEmpty
                                 ? 'Καταχώρησε ένα όνομα για το χρήστη.'
                                 : null,
                             onChanged: (val) {
-                              setState(() =>
-                                  email = '${val.toLowerCase()}@example.com');
+                              print('val ${val}');
                               setState(() {
                                 _isButtonDis = !_isButtonDis;
+                                print(_isButtonDis);
+                                email = '${val.toLowerCase()}@example.com';
+                              });
+                              // setState(() {
+                              //   _isButtonDis = !_isButtonDis;
+                              // });
+                            },
+                            onEditingComplete: () {
+                              setState(() {
+                                _isButtonDis = !_isButtonDis;
+                                print(_isButtonDis);
                               });
                             },
                           ),
                           const SizedBox(height: 20.0),
                           TextFormField(
                             decoration: InputDecoration(
-                              labelText: 'Password',
+                              labelText: 'Κωδικός',
                               suffixIcon: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -169,61 +174,70 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(
                             height: 20.0,
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.teal[100],
-                              borderRadius: BorderRadius.circular(18.0),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              backgroundColor: Colors.teal[100],
                             ),
-                            child: ElevatedButton(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30.0, vertical: 4),
                               child: const Text(
                                 'Είσοδος',
-                                style: TextStyle(color: Colors.black54),
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.black87,
+                                ),
                               ),
-                              onPressed: () async {
-                                try {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => loading = true);
-
-                                    await _auth
-                                        .signInWithEmailAndPassword(
-                                            email, password)
-                                        .then((resultUser) {
-                                      if (resultUser is! Users) {
-                                        if (resultUser
-                                            .toString()
-                                            .contains('user-not-found')) {
-                                          error =
-                                              'Δεν βρέθηκε χρήστης με αυτό το email.';
-                                          _showErrorDialog(error);
-                                        } else if (resultUser
-                                            .toString()
-                                            .contains('ERROR_WRONG_PASSWORD')) {
-                                          error = 'Λάθος Κωδικός Πρόσβασης.';
-                                          _showErrorDialog(error);
-                                        }
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                      } else {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Wrapper(
-                                                    apoPou: eimaiSign,
-                                                  )),
-                                        );
-                                      }
-                                    });
-                                  }
-                                } catch (e) {
-                                  print('${e.toString()}');
-                                }
-                              },
                             ),
+                            onPressed: () async {
+                              try {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() => loading = true);
+
+                                  await _auth
+                                      .signInWithEmailAndPassword(
+                                          email, password)
+                                      .then((resultUser) {
+                                    print(resultUser.toString());
+                                    if (resultUser is! Users) {
+                                      if (resultUser
+                                          .toString()
+                                          .contains('user-not-found')) {
+                                        error =
+                                            'Δεν βρέθηκε χρήστης με αυτό το email.';
+                                        _showErrorDialog(error);
+                                      } else if (resultUser
+                                          .toString()
+                                          .contains('ERROR_WRONG_PASSWORD')) {
+                                        error = 'Λάθος Κωδικός Πρόσβασης.';
+                                        _showErrorDialog(error);
+                                      }
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Wrapper(
+                                                  apoPou: eimaiSign,
+                                                )),
+                                      );
+                                    }
+                                  });
+                                }
+                              } catch (e) {
+                                print('${e.toString()}');
+                              }
+                            },
                           ),
-                          ElevatedButton(
+                          TextButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                            ),
                             child: Text(
                               'Εγγραφή',
                               style: TextStyle(
@@ -238,25 +252,42 @@ class _SignInState extends State<SignIn> {
                               );
                             },
                           ),
-                          Builder(
-                            builder: (context) => ElevatedButton(
-                              onPressed: !_isButtonDis
-                                  ? () async {
-                                      snackbar;
-                                    }
-                                  : () async {
-                                      _auth.resetPassword(email);
-                                      String message =
-                                          'Θα σου Aποσταλεί email για Αλλαγή Kωδικού.';
-                                      _showChangeDialog(message);
-                                    },
-                              child: Text(
-                                'Ξέχασες τον κωδικό σου;',
-                                style: TextStyle(
+                          TextButton(
+                            onPressed: !_isButtonDis
+                                ? () async {
+                                    print('!_isButtonDis');
+                                    final snackbar = SnackBar(
+                                      content: const Text(
+                                          'Πρέπει να εισάγεις πρώτα το ψευδώνυμό σου.'),
+                                      action: SnackBarAction(
+                                          label: 'Ok', onPressed: () => null),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        snackbar); // Show the SnackBar
+                                  }
+                                : () async {
+                                    print('_isButtonDis');
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ForgotPasswordDialog();
+                                      },
+                                    );
+
+                                    // _auth.resetPassword(email);
+                                    // String message =
+                                    //     'Θα σου Aποσταλεί email για Αλλαγή Kωδικού.';
+                                    // _showChangeDialog(message);
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                            ),
+                            child: Text(
+                              'Ξέχασες τον κωδικό σου;',
+                              style: TextStyle(
                                   fontStyle: FontStyle.italic,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
+                                  color: Theme.of(context).primaryColor),
                             ),
                           ),
                           Text(

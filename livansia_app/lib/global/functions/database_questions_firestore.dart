@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:livansia_app/helpers/imports.dart';
+import 'package:livansia_app/models/getQuote.dart';
 
 import '../../models/get_quest.dart';
 // import '../../models/getQuote.dart';
 
-class DatabaseService2 with ChangeNotifier {
+class DatabaseServiceProvider with ChangeNotifier {
   final CollectionReference questionnaireCol =
       FirebaseFirestore.instance.collection('showQuestions');
 
@@ -15,6 +17,8 @@ class DatabaseService2 with ChangeNotifier {
       FirebaseFirestore.instance.collection('FamousQ');
 
   List<GetQuest>? listQuestions = [];
+  List<String>? listQuotes = [];
+
   List<GetQuest> _questionsFromSnapshot(QuerySnapshot snapshot) {
     final reference = questionnaireCol.withConverter(
       fromFirestore: GetQuest.fromFirestore,
@@ -66,6 +70,26 @@ class DatabaseService2 with ChangeNotifier {
   // Stream<List<GetFamous>> get famQuotes {
   //   return famousQ.snapshots().map(_famousQFromSnapshot);
   // }
+  // List<GetQuotes> _quotesFromSnapshot(DocumentSnapshot snapshot) {
+  //   final reference = quotesRefer.withConverter(
+  //     fromFirestore: GetQuotes.fromFirestore,
+  //     toFirestore: (GetQuotes quotes, _) => quotes.toFirestore(),
+  //   );
+
+  //   reference.get().then((value) {
+  //     QuerySnapshot<GetQuotes> docSnap = value;
+  //     listQuotes = docSnap.docs.cast<GetQuotes>();
+  //   });
+  //   print(listQuotes?.length);
+  //   return listQuotes!;
+  //   // return snapshot.docs.map((doc2) {
+  //   //   return GetQuotes(
+  //   //     name: doc2.data['name'] ?? '',
+
+  //   //     ///_userDataFromSnapshot opws ekei
+  //   //   );
+  //   // }).toList();
+  // }
 
   // List<GetQuotes> _quotesFromSnapshot(QuerySnapshot snapshot) {
   //   return snapshot.documents.map((doc) {
@@ -91,10 +115,7 @@ class DatabaseService2 with ChangeNotifier {
   // }
 
   // Stream<List<GetQuotes>> get quotes3 {
-  //   return quotesRefer
-  //       .where('name', isEqualTo: 'category3')
-  //       .snapshots()
-  //       .map(_quotesFromSnapshot);
+  //   return quotesRefer.doc('category3').snapshots().map(_quotesFromSnapshot);
   // }
 
   // Stream<List<GetQuotes>> get quotes4 {
@@ -103,4 +124,35 @@ class DatabaseService2 with ChangeNotifier {
   //       .snapshots()
   //       .map(_quotesFromSnapshot);
   // }
+
+  Future<void> fetchData() async {
+    try {
+      // Get a reference to the "Quotes" collection
+      CollectionReference quotesCollection =
+          FirebaseFirestore.instance.collection('Quotes');
+
+      // Get a reference to the "category3" document
+      DocumentSnapshot category3Document =
+          await quotesCollection.doc('category3').get();
+      print('category3Document   $category3Document');
+      // Check if the document exists
+      if (category3Document.exists) {
+        // Retrieve data from the "category3" document
+        // Retrieve data from the "category3" document
+        List<dynamic> rawTexts = category3Document['textL'];
+        print(rawTexts);
+        // Cast the dynamic list to the correct type (List<GetQuotes>)
+        GetQuotes texts = (GetQuotes(text: rawTexts));
+        listQuotes = texts.text.cast<String>();
+        // Use the retrieved data (in this example, print the texts)
+        // for (var text in listQuotes!) {
+        //   print(text);
+        // }
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
 }

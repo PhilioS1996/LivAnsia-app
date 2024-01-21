@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:intl/intl.dart';
+import 'package:livansia_app/models/getAnswers.dart';
 import 'package:livansia_app/models/users.dart';
 
 import '../../models/slider_answer_model.dart';
@@ -44,7 +46,11 @@ class DatabaseService {
 
   Future upEvent(DateTime timeDay) async {
     var hmer = DateFormat.yMMMd().add_jm().format(timeDay);
-    return questionnaireEvents.doc(uid).collection('Events').doc('$hmer').set({
+    return questionnaireEvents
+        .doc(uid)
+        .collection('Events')
+        .doc('$hmer')
+        .update({
       'date': timeDay,
     });
   }
@@ -52,7 +58,8 @@ class DatabaseService {
   Future setUserData(
     List dedomena,
     attendance,
-    //String am,
+    int selectedOptionJob,
+    int useSocial,
     String gender,
     String born,
   ) async {
@@ -60,14 +67,17 @@ class DatabaseService {
       '$dAfter dedomena': dedomena,
       //'AM': am,
       'Gender': gender,
-      'Birth_Date': born,
+      'Age': born,
+      'Job_Key': selectedOptionJob,
+      'Use_social': useSocial
     });
   }
 
   Future setUserDataNew(
     List dedomena,
     attendance,
-    //String am,
+    int selectedOptionJob,
+    int useSocial,
     String gender,
     String born,
   ) async {
@@ -75,7 +85,9 @@ class DatabaseService {
       'Data': dedomena,
       //'AM': am,
       'Gender': gender,
-      'Birth_Date': born,
+      'Age': born,
+      'Job_Key': selectedOptionJob,
+      'Use_social': useSocial
     });
   }
 //FieldValue.arrayUnion(questionsAnswer)
@@ -110,7 +122,7 @@ class DatabaseService {
   //   });
   // }
 // chat gpt
-  Future<void> updateUserData(List<SliderAnswers> dedomena) async {
+  Future<void> updateUserData(List<QuestionAnswers> dedomena) async {
     final DocumentReference docRef = answersCollection.doc(uid);
 
     try {
@@ -120,7 +132,7 @@ class DatabaseService {
 
       for (int count = 0; count < dedomena.length; count++) {
         answers[count.toString()] =
-            'Box ${dedomena[count].questionIndex} : ${dedomena[count].valueSelected}';
+            'Box ${dedomena[count].questionIndex} : ${dedomena[count].valueSelected} ${dedomena[count].textAnswer != '' ? '/text : ${dedomena[count].textAnswer}' : ''} ';
       }
 
       // Set a new field with the current timestamp as the field name
@@ -128,7 +140,9 @@ class DatabaseService {
         '$dAfter': answers,
       }, SetOptions(merge: true));
     } catch (e) {
-      print('Error updating user data: $e');
+      if (kDebugMode) {
+        print('Error updating user data: $e');
+      }
     }
   }
 
@@ -157,11 +171,14 @@ class DatabaseService {
     );
   }
 
-  Future updateUserInfo(String gender, String born) async {
+  Future updateUserInfo(
+      String gender, String born, int selectedOptionJob, int useSocial) async {
     // final List<GetQuest> mikos =new List<GetQuest>();
     return await answersCollection.doc(uid).update({
       'Gender': gender,
-      'Birth_Date': born,
+      'Age': born,
+      'Job_Key': selectedOptionJob,
+      'Use_social': useSocial
     });
   }
 
@@ -188,11 +205,11 @@ class DatabaseService {
   //       dedomena: doc.data(),
   //       //dedomena: doc.data(dAfter)  ?? [],
   //       //parousies: doc.data['Attendance'],
-  //       score: doc.data[' score'] ?? 0,
-  //       thoughts: doc.data['$date thoughts'] ?? '',
-  //       am: doc.data['AM'] ?? '0',
+  //       // score: doc.data[' score'] ?? 0,
+  //       // thoughts: doc.data['$date thoughts'] ?? '',
+  //       // am: doc.data['AM'] ?? '0',
   //       gender: doc.data['Gender'] ?? '',
-  //       born: doc.data['Birth_Date'] ?? '', ,
+  //       born: doc.data['Birth_Date'] ?? '',
   //     );
   //   }).toList();
   // }
@@ -232,9 +249,30 @@ class DatabaseService {
     //     thougths: snapshot['$date thoughts']);
   }
 
-  // Stream<List<GetAnswers>> get answers {
-  //   return answersCollection.snapshots().map(_answersFromSnapshots);
-  // }
+//   Future<Stream<List<GetAnswers>>> get answers async{
+//     try {
+//     var documentSnapshot = await answersCollection
+//         .doc('yourDocumentId') // Replace with the specific document ID
+//         .get();
+
+//     if (documentSnapshot.exists) {
+//        List data = documentSnapshot.data();
+//  return data?.map(_answersFromSnapshots);
+//       // // Access fields in the document data
+//       // var field1 = data?['field1']; // Replace 'field1' with your field name
+//       // var field2 = data?['field2']; // Replace 'field2' with another field name
+//       // // Access and use retrieved field values
+//       // print('Field 1: $field1');
+//       // print('Field 2: $field2');
+//       // // Process the retrieved data as needed
+//     } else {
+//       print('Document does not exist');
+//     }
+//   } catch (e) {
+//     print('Error retrieving data: $e');
+//   }
+
+//   }
 
   //get user doc stream
   Stream<UserData?> get userData {

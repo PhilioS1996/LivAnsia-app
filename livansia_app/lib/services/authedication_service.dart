@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:livansia_app/global/show_snackBar.dart';
 import 'package:livansia_app/pages/first_page.dart';
+import 'package:livansia_app/providers/questions_provider.dart';
 
 import '../global/functions/database_firebase.dart';
 import '../helpers/imports.dart';
@@ -38,6 +39,7 @@ class AuthService with ChangeNotifier {
   //sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
+      print('$email $password');
       UserCredential result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
@@ -69,8 +71,17 @@ class AuthService with ChangeNotifier {
       userInstance = result.user;
 
       //creates a new document for the user with uid
+      await DatabaseService(uid: userInstance!.uid).setUserDataNew(
+        [],
+        [],
+        0,
+        0,
+        '',
+        '',
+      );
+
       await DatabaseService(uid: userInstance!.uid)
-          .setUserDataNew([], [], '', '');
+          .setUserEvents(DateTime(2000));
       // await DatabaseService(uid: user.uid).setUserEvents(null);
 
       return _userFromFirebaseUser(userInstance!);

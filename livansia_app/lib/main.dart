@@ -25,8 +25,8 @@ void main() async {
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
         ),
-        ChangeNotifierProvider<DatabaseService2>(
-          create: (context) => DatabaseService2(),
+        ChangeNotifierProvider<DatabaseServiceProvider>(
+          create: (context) => DatabaseServiceProvider(),
         ),
         ChangeNotifierProvider<QuestionsProvider>(
           create: (context) => QuestionsProvider(),

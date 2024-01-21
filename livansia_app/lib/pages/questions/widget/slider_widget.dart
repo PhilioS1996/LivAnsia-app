@@ -71,7 +71,8 @@ class _SliderWidgetState extends State<SliderWidget> {
                   countText = _value;
                 });
 
-                questionsProvider.setValuePickedSlider(_value, widget.index);
+                questionsProvider.setValuePickedSlider(
+                    _value, widget.index, '');
               },
             ),
 

@@ -1,6 +1,7 @@
 //gia to belaki kai to done sthn selida me tis ervthseis
 
 import 'package:flutter/material.dart';
+import 'package:livansia_app/providers/questions_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -11,69 +12,69 @@ String thougths = '';
 bool scoreCheck = false;
 
 class BottomThoughtBox extends StatefulWidget {
-  const BottomThoughtBox({Key? key}) : super(key: key);
+  final int index;
+  const BottomThoughtBox({Key? key, required this.index}) : super(key: key);
 
   @override
   State<BottomThoughtBox> createState() => _BottomThoughtBoxState();
 }
 
 class _BottomThoughtBoxState extends State<BottomThoughtBox> {
+  FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode
+        .dispose(); // Dispose of the focus node when the widget is disposed
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final questionsProvider =
+        Provider.of<QuestionsProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        Align(
-          alignment: FractionalOffset.bottomLeft,
-
-          //child: Card(
-          //elevation: 1.5,
-
-          child: TextFormField(
-              maxLines: 5,
-              maxLength: 200,
-              decoration: InputDecoration(
-                hintText: '\tΛίγα λόγια για το πώς αισθάνεσαι.',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(
-                    color: Colors.teal.shade100,
-                  ),
-                ),
+        TextFormField(
+            controller: questionsProvider.textBoxController,
+            maxLines: 5,
+            // maxLength: 200,
+            decoration: InputDecoration(
+              label: const Text(
+                  'Πές μας δυο λόγια για αυτό: (αν δεν συμμετείχες, ποιος ήταν ο λόγος; σε βοήθησαν τα social media που σε ενημέρωσαν σχετικά;)'),
+              labelStyle: const TextStyle(
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
               ),
-              keyboardType: TextInputType.multiline,
-              //validator: (val) => '',
-              //val.length < 30 ? 'Παρακαλώ βάλε μία περιγραφή με 30+ γράμματα.' : '',
-              onChanged: (val) =>
-                  // val.length >= 30
-                  {
-                    setState(() => thougths = val),
-                  }),
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-              //sign_in
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.indigo[200], onPrimary: Colors.white),
-
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(18.0),
-              // ),
-              child: const Text('Τέλος'),
-              onPressed: () async {
-                // setState(() => loading = true);
-                // await DatabaseService(uid: user.uid).updateUserDataThougths(
-                //   thougths ?? userData.thougths,
-                // );
-                // DateTime timeDay = DateTime.now();
-                // await DatabaseService(uid: user.uid).updateUserEvent(timeDay);
-                // Navigator.push(
-                //   context,
-                //   new MaterialPageRoute(builder: (context) => Finish()),
-                // );
-              }),
-        ),
+              hintText:
+                  '\t π.χ. έχασα μια συναυλία που πήγαν κάποιοι φίλοι- έμαθα για ένα μαγαζί αλλά είναι ακριβό ',
+              hintStyle: const TextStyle(
+                fontSize: 12,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide:
+                    const BorderSide(color: Color(0x2C009687), width: 2.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide:
+                    BorderSide(color: Colors.indigo.shade300, width: 2.0),
+              ),
+            ),
+            keyboardType: TextInputType.multiline,
+            //validator: (val) => '',
+            //val.length < 30 ? 'Παρακαλώ βάλε μία περιγραφή με 30+ γράμματα.' : '',
+            onChanged: (val) =>
+                // val.length >= 30
+                {
+                  setState(() => thougths = val),
+                }),
       ],
     );
   }

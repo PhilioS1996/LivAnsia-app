@@ -29,9 +29,11 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
   final ageTextController = TextEditingController();
   bool _isButtonDisGen = true;
   //bool _isButtonDisAm = true;
-  Gender selectedGender = Gender.Female;
+  Gender selectedGender = Gender.Male;
   String _selectedDate = 'Πάτα για επιλογή';
-  int selectedOptionJob = 0;
+  int selectedOptionJob = -1;
+  int useSocial = -1;
+
   String? genderType = '';
 
   int _radioValue1 = -1;
@@ -39,7 +41,18 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
 
   bool allCheck() {
     bool res = false;
-    if (!_isButtonDisCal && !_isButtonDisGen) {
+    if (ageTextController.text.isNotEmpty) {
+      setState(() {
+        _isButtonDisCal = false;
+        born = '${ageTextController.text} age';
+      });
+    } else {
+      setState(() => _isButtonDisCal = true);
+    }
+    if (!_isButtonDisCal &&
+        !_isButtonDisGen &&
+        selectedOptionJob != -1 &&
+        useSocial != -1) {
       //if (!_isButtonDisGen) {
       res = true;
       // print('to res einai $res');
@@ -77,6 +90,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
       appBar: AppBar(
         backgroundColor: Colors.teal[100],
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: const Image(
             width: 50,
             image: AssetImage(
@@ -94,7 +108,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
             //mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 80),
+              const SizedBox(height: 35),
               Text(
                 'Καλώς Όρισες ',
                 style: Theme.of(context)
@@ -107,7 +121,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                   style: Theme.of(context).textTheme.bodyLarge
                   //.apply(fontSizeFactor: 1.5),
                   ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Card(
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(
@@ -138,7 +152,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                         // const SizedBox(height: 9),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 0),
+                              vertical: 5, horizontal: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -162,6 +176,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                   ),
                                 ),
                                 child: TextField(
+                                  textAlign: TextAlign.center,
                                   controller: ageTextController,
                                 ),
                               ),
@@ -173,42 +188,81 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                               vertical: 15, horizontal: 10),
                           child: SizedBox(
                             width: 310,
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.start,
+                            child: Column(
+                              //crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Radio<int>(
-                                  value: 1,
-                                  groupValue: selectedOptionJob,
-                                  activeColor: Colors.indigo.shade400,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOptionJob = value!;
-                                    });
-                                  },
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Ενασχόληση:',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 140,
+                                    )
+                                  ],
                                 ),
-                                Text('Option 1'),
-                                Radio<int>(
-                                  value: 2,
-                                  groupValue: selectedOptionJob,
-                                  activeColor: Colors.indigo.shade400,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOptionJob = value!;
-                                    });
-                                  },
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Radio<int>(
+                                        value: 1,
+                                        groupValue: selectedOptionJob,
+                                        activeColor: Colors.indigo.shade400,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedOptionJob = value!;
+                                          });
+                                        },
+                                      ),
+                                      const Text('Εργαζόμενη/ος'),
+                                    ],
+                                  ),
                                 ),
-                                Text('Option 2'),
-                                Radio<int>(
-                                  value: 3,
-                                  groupValue: selectedOptionJob,
-                                  activeColor: Colors.indigo.shade400,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOptionJob = value!;
-                                    });
-                                  },
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Radio<int>(
+                                        value: 2,
+                                        groupValue: selectedOptionJob,
+                                        activeColor: Colors.indigo.shade400,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedOptionJob = value!;
+                                          });
+                                        },
+                                      ),
+                                      Text('Φοιτήτρια/της'),
+                                    ],
+                                  ),
                                 ),
-                                Text('Option 3'),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Radio<int>(
+                                        value: 3,
+                                        groupValue: selectedOptionJob,
+                                        activeColor: Colors.indigo.shade400,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedOptionJob = value!;
+                                          });
+                                        },
+                                      ),
+                                      Text('Άνεργος'),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -216,66 +270,63 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                         // const SizedBox(
                         //   height: 30,
                         // ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Φύλο:',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Φύλο:',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  SizedBox(
-                                    width: 140,
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
-                                width: 320,
-                                child: GenderPickerWithImage(
-                                  showOtherGender: true,
-                                  verticalAlignedText: false,
-                                  selectedGender: selectedGender,
-                                  selectedGenderTextStyle: const TextStyle(
-                                      color: Color(0xFF8b32a8),
-                                      fontWeight: FontWeight.bold),
-                                  unSelectedGenderTextStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal),
-                                  onChanged: (gender) {
-                                    if (kDebugMode) {
-                                      print('---------${gender?.name}');
-                                      setState(() {
-                                        genderType = gender?.name;
-                                        selectedGender = gender!;
-                                        _isButtonDisGen = false;
-                                      });
-                                    }
-                                  },
-                                  equallyAligned: true,
-                                  animationDuration:
-                                      Duration(milliseconds: 300),
-                                  isCircular: true,
-                                  // default : true,
-                                  opacityOfGradient: 0.4,
-                                  padding: const EdgeInsets.all(3),
-                                  size: 50, //default : 40
                                 ),
+                                SizedBox(
+                                  width: 140,
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 320,
+                              child: GenderPickerWithImage(
+                                femaleText: 'Γυναίκα',
+                                maleText: 'Άνδρας',
+                                otherGenderText: 'Άλλο',
+                                showOtherGender: true,
+                                verticalAlignedText: false,
+                                selectedGender: selectedGender,
+                                selectedGenderTextStyle: const TextStyle(
+                                    color: Color(0xFF8b32a8),
+                                    fontWeight: FontWeight.bold),
+                                unSelectedGenderTextStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal),
+                                onChanged: (gender) {
+                                  if (kDebugMode) {
+                                    print('---------${gender?.name}');
+                                    setState(() {
+                                      genderType = gender?.name;
+                                      selectedGender = gender!;
+                                      _isButtonDisGen = false;
+                                    });
+                                  }
+                                },
+                                equallyAligned: true,
+                                animationDuration: Duration(milliseconds: 300),
+                                isCircular: true,
+                                // default : true,
+                                opacityOfGradient: 0.4,
+                                padding: const EdgeInsets.all(3),
+                                size: 50, //default : 40
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -290,7 +341,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'Χρησιμοποιείς κάποιο/α ενεργά?',
+                                      'Χρησιμοποιείς κάποιο/α, ενεργά?',
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -356,22 +407,22 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                     children: <Widget>[
                                       Radio<int>(
                                         value: 1,
-                                        groupValue: selectedOptionJob,
+                                        groupValue: useSocial,
                                         activeColor: Colors.indigo.shade400,
                                         onChanged: (value) {
                                           setState(() {
-                                            selectedOptionJob = value!;
+                                            useSocial = value!;
                                           });
                                         },
                                       ),
                                       const Text('Ναί'),
                                       Radio<int>(
-                                        value: 0,
-                                        groupValue: selectedOptionJob,
+                                        value: 2,
+                                        groupValue: useSocial,
                                         activeColor: Colors.indigo.shade400,
                                         onChanged: (value) {
                                           setState(() {
-                                            selectedOptionJob = value!;
+                                            useSocial = value!;
                                           });
                                         },
                                       ),
@@ -401,7 +452,8 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                     : () async {
                         await DatabaseService(
                                 uid: authServiceProv.userSignIn!.uid)
-                            .updateUserInfo(genderType!, born);
+                            .updateUserInfo(genderType!, born,
+                                selectedOptionJob, useSocial);
 
                         // Navigator.push(
                         //   context,
@@ -423,6 +475,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                     'Έναρξη',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      color: Colors.black87,
                       fontSize: 19,
                       fontWeight: FontWeight.w500,
                     ),

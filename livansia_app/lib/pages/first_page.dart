@@ -46,7 +46,11 @@ class _FirstScreenState extends State<FirstScreen> {
                 ElevatedButton(
                   //sign_in
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.teal.shade200, onPrimary: Colors.white),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    backgroundColor: Colors.teal[100],
+                  ),
                   onPressed: () {
                     if (showSignIn) {
                       Navigator.push(
@@ -69,8 +73,8 @@ class _FirstScreenState extends State<FirstScreen> {
                       'Είσοδος',
                       style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.headline6?.fontSize,
-                        color: Theme.of(context).textTheme.headline6?.color,
+                            Theme.of(context).textTheme.titleLarge?.fontSize,
+                        color: Colors.black87,
                       ),
                     ),
                   ),
@@ -79,11 +83,15 @@ class _FirstScreenState extends State<FirstScreen> {
                 ElevatedButton(
                   //sign_in
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.teal.shade200, onPrimary: Colors.white),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    backgroundColor: Colors.teal[100],
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      new MaterialPageRoute(
+                      MaterialPageRoute(
                         builder: (context) => Consent(toggleView: toggleView),
                       ),
                     );
@@ -95,8 +103,8 @@ class _FirstScreenState extends State<FirstScreen> {
                       'Εγγραφή',
                       style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.headline6?.fontSize,
-                        color: Theme.of(context).textTheme.headline6?.color,
+                            Theme.of(context).textTheme.titleLarge?.fontSize,
+                        color: Colors.black87,
                       ),
                     ),
                   ),

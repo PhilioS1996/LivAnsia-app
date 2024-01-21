@@ -8,7 +8,8 @@ void showSnackbar(BuildContext context, String text,
     SnackBar(
       duration: dur,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5), topRight: Radius.circular(5))),
       // ignore: sized_box_for_whitespace
       content: Container(
           height: 25,

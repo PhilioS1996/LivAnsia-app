@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:livansia_app/pages/calendar_screen.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_register.dart';
 import 'package:livansia_app/providers/questions_provider.dart';
 import 'package:livansia_app/providers/user_provider.dart';
@@ -41,6 +42,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   bool eimaiRegister = false;
   late String hm;
   late String gender;
+  late int selectedOptionJob;
+  late int useSocial;
   String _selectedDate = 'Πάτα για επιλογή';
 
   void _showInfo() {
@@ -58,7 +61,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               style: TextStyle(color: Colors.black, fontSize: 18),
               children: <TextSpan>[
                 TextSpan(
-                  text: ' τουλάχιστον μία φορά την ημέρα.',
+                  text: ' μία φορά την ημέρα για διάστημα 7 ημερών.',
                   style: TextStyle(color: Colors.blueAccent, fontSize: 18),
                 ),
                 TextSpan(
@@ -67,17 +70,23 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               ]),
         ),
         actions: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18.0),
-              color: Colors.indigo[200],
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              backgroundColor: Colors.teal[100],
             ),
-            child: ElevatedButton(
-              child: const Text('Εντάξει'),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
+            child: const Text(
+              'Εντάξει',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black87,
+              ),
             ),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
           )
         ],
       ),
@@ -155,19 +164,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
 
     authServiceProv.setUserSignIn();
     try {
-      // return StreamBuilder<User>(
-      //   stream:
-      //       DatabaseService(uid: authServiceProv.userInstance!.uid).userData,
-      //   // user.uid != null
-      //   //     ? DatabaseService(uid: user.uid).userData
-      //   //     : AuthScreen(),
-      //   builder: (context, snapshot) {
-      //     UserData? userData = snapshot.data;
-
-      // if (snapshot.hasData) {
-      //  _che();
       return Scaffold(
-        // backgroundColor: Colors.blue[50],
         appBar: AppBar(
           iconTheme: const IconThemeData(
               color: Colors.black87), // Set the desired color for the icon,
@@ -187,7 +184,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const SizedBox(
-                      height: 26,
+                      height: 60,
                     ),
                     const Image(
                         width: 100,
@@ -195,57 +192,64 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                           "assets/6logo.png",
                         ),
                         fit: BoxFit.cover),
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 40),
                     Text(
                       'Καλώς Όρισες ',
                       style: Theme.of(context)
                           .textTheme
-                          .headline5!
+                          .headlineSmall!
                           .apply(fontSizeFactor: 1.5),
                     ),
-                    Container(
+                    const SizedBox(
                       width: 200,
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'Συνιστάται καθημερινή καταχώρηση.',
                           style: TextStyle(fontSize: 11, color: Colors.grey),
                         ),
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.error_outline,
-                      ),
-                      onPressed: () => showTextField(
-                          snapshot.data, authServiceProv.userSignIn!),
-                    ),
-                    const SizedBox(height: 40),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.black87,
-                          backgroundColor: Colors.grey[300]),
-                      icon: const Icon(Icons.calendar_today),
-                      label: const Text('Ημερολόγιο Καταχώρησης'),
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   new MaterialPageRoute(
-                        //     builder: (context) => Calendar(user: (user.uid)),
-                        //   ),
-                        // );
-                      },
-                    ),
-                    const SizedBox(height: 5.0),
+                    // IconButton(
+                    //   icon: const Icon(
+                    //     Icons.error_outline,
+                    //   ),
+                    //   onPressed: () => showTextField(
+                    //       snapshot.data, authServiceProv.userSignIn!),
+                    // ),
+                    const SizedBox(height: 80),
+                    // ElevatedButton.icon(
+                    //   style: ElevatedButton.styleFrom(
+                    //       foregroundColor: Colors.black87,
+                    //       backgroundColor: Colors.grey[300]),
+                    //   icon: const Icon(Icons.calendar_today),
+                    //   label: const Text('Ημερολόγιο Καταχώρησης'),
+                    //   onPressed: () {
+                    //     // Navigator.push(
+                    //     //   context,
+                    //     //   MaterialPageRoute(
+                    //     //     builder: (context) => Calendar(
+                    //     //         user: (authServiceProv.userSignIn!.uid)),
+                    //     //   ),
+                    //     // );
+                    //   },
+                    // ),
+
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
                         backgroundColor: Colors.teal[100],
                       ),
-                      child: const Text(
-                        'Νέα Καταχώρηση',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          'Νέα Καταχώρηση',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       onPressed: () async {
@@ -387,7 +391,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               child: const Text('Εντάξει'),
               onPressed: () async {
                 await DatabaseService(uid: authServiceProv.userInstance!.uid)
-                    .updateUserInfo(gender, born!);
+                    .updateUserInfo(
+                        gender, born!, selectedOptionJob, useSocial);
                 Navigator.of(ctx).pop();
               },
             ),
@@ -405,6 +410,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         });
         gender = userSignIn.gender!;
         hm = userSignIn.born!;
+        selectedOptionJob = userSignIn.selectedOptionJob;
+        useSocial = userSignIn.selectedOptionJob;
         _showUserD(userFirebase);
         return userSignIn.born!;
       } else {

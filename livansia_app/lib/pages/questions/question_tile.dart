@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:livansia_app/models/get_quest.dart';
-import 'package:livansia_app/pages/questions/widget/slider_widget.dart';
+import 'package:livansia_app/pages/questions/widget/iconButtonWidget.dart';
+import 'package:livansia_app/pages/questions/widget/twoTextBoxWidget.dart';
+import 'package:livansia_app/pages/questions/widget/yesNoWidget.dart';
+
+import 'widget/textBoxWidget.dart';
 
 class QuestionTile extends StatelessWidget {
   const QuestionTile({Key? key, required this.question1, required this.index})
@@ -17,23 +20,6 @@ class QuestionTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              // Container(
-              //   width: 500,
-              //   height: 99,
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //       color: Colors.teal.shade100,
-              //       width: 1,
-              //     ),
-              //     color: Colors.white38,
-              //     borderRadius: BorderRadius.circular(20),
-              //   ),
-              //   child:
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              // Expanded(
-              //   child:
               ListTile(
                 contentPadding: const EdgeInsets.only(
                   left: 15,
@@ -47,20 +33,26 @@ class QuestionTile extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                onTap: () {
-                  print('ekana tap');
-                },
               ),
               // ),
-              SliderWidget(index: index),
-              //   ],
-              // ),
-              // ),
+              answerTypeWidget(index),
               const SizedBox(
                 height: 20.0,
               ),
             ],
           )),
     );
+  }
+}
+
+Widget answerTypeWidget(int indexQuestion) {
+  if (indexQuestion == 0 || indexQuestion == 3 || indexQuestion == 4) {
+    return YesNoWidget(index: indexQuestion);
+  } else if (indexQuestion == 2 || indexQuestion == 5) {
+    return IconButtonWidget(index: indexQuestion);
+  } else if (indexQuestion == 6) {
+    return TextBoxWidget(index: indexQuestion);
+  } else {
+    return TwoTextBoxWidget(index: indexQuestion);
   }
 }

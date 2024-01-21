@@ -10,13 +10,20 @@ ThemeData lightTheme = ThemeData(
   focusColor: Colors.blue,
   // buttonColor: Colors.white,
   selectedRowColor: Colors.grey[300],
-  cardColor: Colors.white,
+  cardColor: Colors.grey[300],
   dividerTheme: DividerThemeData(color: Colors.grey[100]),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     foregroundColor: Colors.white,
   ),
   bottomAppBarColor: Colors.blue,
   inputDecorationTheme: InputDecorationTheme(
+    border: const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      borderSide: BorderSide(
+        color: Colors.red, // Use 0xFF instead of 0x2C
+        width: 2.0, // Adjust the width of the border as needed
+      ),
+    ),
     fillColor: Colors.white70,
     hintStyle: TextStyle(
       color: Colors.grey[400],

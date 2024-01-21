@@ -1,4 +1,7 @@
+import 'package:livansia_app/pages/about_screen.dart';
+
 import '../helpers/imports.dart';
+import '../pages/famousQuotes_screen.dart';
 import '../pages/wrapper.dart';
 import '../services/authedication_service.dart';
 
@@ -14,41 +17,48 @@ class AppDrawer extends StatelessWidget {
         //Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
+          DrawerHeader(
             // decoration: BoxDecoration(
             //   color: Colors.teal[100],
             // ),
-            child: Image(
-                width: 50,
-                image: AssetImage(
-                  "assets/6logo.png",
+            child:
+                // Image(
+                //     width: 50,
+                //     image: AssetImage(
+                //       "assets/6logo.png",
+                //     ),
+                //     fit: BoxFit.contain),
+                Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Menu',
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.indigo.shade300,
+                    fontSize: 30,
+                  ),
                 ),
-                fit: BoxFit.contain),
-            // const Text(
-            //   'Menu',
-            //   style: TextStyle(
-            //     fontStyle: FontStyle.italic,
-            //     fontWeight: FontWeight.bold,
-            //     color: Colors.black,
-            //     fontSize: 20,
-            //   ),
-            // ),
+              ],
+            ),
           ),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
           ),
           ListTile(
             title: const Text('Σχετικά'),
             trailing: const Icon(Icons.info_outline),
             onTap: () {
-              // Navigator.push(context,
-              //     new MaterialPageRoute(builder: (context) => About()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => About()));
             },
           ),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
           ),
           ListTile(
             title: const Text('Ημερολόγιο'),
@@ -60,19 +70,19 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
           ),
           ListTile(
             title: const Text('Quote'),
             trailing: const Icon(Icons.question_answer),
             onTap: () {
-              // Navigator.push(context,
-              //     new MaterialPageRoute(builder: (context) => Famous()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Famous()));
             },
           ),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
           ),
           ListTile(
             title: const Text('Οργανισμοί'),
@@ -84,7 +94,7 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
           ),
           ListTile(
             title: const Text('Προφίλ'),
@@ -96,7 +106,8 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
+            // thickness: 0.75,
           ),
           ListTile(
               // Log Out.
@@ -107,7 +118,7 @@ class AppDrawer extends StatelessWidget {
               }),
           Divider(
             color: Colors.indigo[200],
-            thickness: 0.75,
+            height: 0,
           ),
         ],
       ),
