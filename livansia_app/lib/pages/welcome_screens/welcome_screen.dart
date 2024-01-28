@@ -1,18 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:livansia_app/pages/calendar_screen.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_register.dart';
-import 'package:livansia_app/providers/questions_provider.dart';
-import 'package:livansia_app/providers/user_provider.dart';
+import 'package:livansia_app/providers/database_firebase.dart';
 import 'package:livansia_app/services/authedication_service.dart';
-
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../global/app_drawer.dart';
-import '../../global/functions/database_firebase.dart';
-import '../../global/loading.dart';
 import '../../models/users.dart';
+import '../../providers/database_questions_firestore.dart';
 import '../questions/questionnaire_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -23,10 +18,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class WelcomeScreenState extends State<WelcomeScreen> {
-  final _formKey = GlobalKey<FormState>();
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
-  // late User user1;
-
   @override
   void initState() {
     super.initState();
@@ -120,7 +111,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   color: Colors.teal[100],
                 ),
                 title: Text(
-                  '$hm',
+                  hm,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -130,7 +121,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 leading:
                     Icon(Icons.radio_button_checked, color: Colors.teal[100]),
                 title: Text(
-                  '$gender',
+                  gender,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -160,8 +151,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final authServiceProv = Provider.of<AuthService>(context, listen: true);
-    final questionProv = Provider.of<QuestionsProvider>(context, listen: false);
-
+    final databaseProvider =
+        Provider.of<DatabaseServiceProvider>(context, listen: false);
     authServiceProv.setUserSignIn();
     try {
       return Scaffold(
@@ -171,11 +162,12 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           backgroundColor: Colors.teal[100],
           centerTitle: true,
         ),
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         body: StreamBuilder<UserData?>(
             stream: DatabaseService(uid: authServiceProv.userSignIn?.uid ?? '')
                 .userData,
             builder: (context, snapshot) {
+              // ignore: sized_box_for_whitespace
               return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -209,31 +201,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                     ),
-                    // IconButton(
-                    //   icon: const Icon(
-                    //     Icons.error_outline,
-                    //   ),
-                    //   onPressed: () => showTextField(
-                    //       snapshot.data, authServiceProv.userSignIn!),
-                    // ),
                     const SizedBox(height: 80),
-                    // ElevatedButton.icon(
-                    //   style: ElevatedButton.styleFrom(
-                    //       foregroundColor: Colors.black87,
-                    //       backgroundColor: Colors.grey[300]),
-                    //   icon: const Icon(Icons.calendar_today),
-                    //   label: const Text('Ημερολόγιο Καταχώρησης'),
-                    //   onPressed: () {
-                    //     // Navigator.push(
-                    //     //   context,
-                    //     //   MaterialPageRoute(
-                    //     //     builder: (context) => Calendar(
-                    //     //         user: (authServiceProv.userSignIn!.uid)),
-                    //     //   ),
-                    //     // );
-                    //   },
-                    // ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -253,6 +221,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                       onPressed: () async {
+                        await databaseProvider.fetchData();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -294,7 +263,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       // },
       //);
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return Container();
     }
   }
@@ -393,6 +364,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 await DatabaseService(uid: authServiceProv.userInstance!.uid)
                     .updateUserInfo(
                         gender, born!, selectedOptionJob, useSocial);
+                // ignore: use_build_context_synchronously
                 Navigator.of(ctx).pop();
               },
             ),
@@ -425,7 +397,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => WelcomeRegister(),
+          builder: (context) => const WelcomeRegister(),
         ),
       );
       return 'ok';

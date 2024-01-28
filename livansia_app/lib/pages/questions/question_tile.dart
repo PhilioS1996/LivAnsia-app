@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:livansia_app/pages/questions/widget/iconButtonWidget.dart';
-import 'package:livansia_app/pages/questions/widget/twoTextBoxWidget.dart';
-import 'package:livansia_app/pages/questions/widget/yesNoWidget.dart';
+import 'package:livansia_app/pages/questions/widget/icon_button_widget.dart';
+import 'package:livansia_app/pages/questions/widget/two_text_box_widget.dart';
+import 'package:livansia_app/pages/questions/widget/yes_no_widget.dart';
 
-import 'widget/textBoxWidget.dart';
+import 'widget/text_box_widget.dart';
 
 class QuestionTile extends StatelessWidget {
   const QuestionTile({Key? key, required this.question1, required this.index})
@@ -52,7 +52,9 @@ Widget answerTypeWidget(int indexQuestion) {
     return IconButtonWidget(index: indexQuestion);
   } else if (indexQuestion == 6) {
     return TextBoxWidget(index: indexQuestion);
-  } else {
+  } else if (indexQuestion == 1) {
     return TwoTextBoxWidget(index: indexQuestion);
+  } else {
+    return TextBoxWidget(index: indexQuestion);
   }
 }

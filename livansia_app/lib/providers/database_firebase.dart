@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:intl/intl.dart';
-import 'package:livansia_app/models/getAnswers.dart';
 import 'package:livansia_app/models/users.dart';
 
 import '../../models/slider_answer_model.dart';
@@ -12,7 +10,7 @@ import '../../models/slider_answer_model.dart';
 List atte = [];
 //List katiii;
 
-class DatabaseService {
+class DatabaseService with ChangeNotifier {
   final String uid;
   DatabaseService({required this.uid});
 
@@ -46,11 +44,7 @@ class DatabaseService {
 
   Future upEvent(DateTime timeDay) async {
     var hmer = DateFormat.yMMMd().add_jm().format(timeDay);
-    return questionnaireEvents
-        .doc(uid)
-        .collection('Events')
-        .doc('$hmer')
-        .update({
+    return questionnaireEvents.doc(uid).collection('Events').doc(hmer).update({
       'date': timeDay,
     });
   }
@@ -90,38 +84,7 @@ class DatabaseService {
       'Use_social': useSocial
     });
   }
-//FieldValue.arrayUnion(questionsAnswer)
 
-  // Future<void> updateUserData(List<SliderAnswers> dedomena) async {
-  //   final DocumentReference docRef = answersCollection.doc(uid);
-  //   docRef.get().then((DocumentSnapshot docSnapshot) async {
-  //     if (docSnapshot.exists) {
-  //       final data = docSnapshot.data() as Map<String, dynamic>;
-  //       final List<dynamic> list = data['Data'] ?? [];
-  //       final int length = list.length;
-  //       print(length);
-  //       dateAfter = DateTime.now();
-
-  //       if (dateAfter.isAfter(date1)) {
-  //         //&& answers != null
-  //         Map answers = {};
-  //         var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
-  //         for (int count = 0; count < dedomena.length; count++) {
-  //           answers[count.toString()] =
-  //               'Box ${dedomena[count].questionIndex} : ${dedomena[count].valueSelected}';
-  //         }
-  //         await answersCollection.doc(uid).update({
-  //           '$dAfter ': answers,
-  //         }, SetOptions(merge: false));
-  //       } else {
-  //         await answersCollection.doc(uid).update({
-  //           '$date ': dedomena.toList(),
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
-// chat gpt
   Future<void> updateUserData(List<QuestionAnswers> dedomena) async {
     final DocumentReference docRef = answersCollection.doc(uid);
 
@@ -137,7 +100,7 @@ class DatabaseService {
 
       // Set a new field with the current timestamp as the field name
       await docRef.set({
-        '$dAfter': answers,
+        dAfter: answers,
       }, SetOptions(merge: true));
     } catch (e) {
       if (kDebugMode) {
@@ -159,8 +122,6 @@ class DatabaseService {
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
     String tday = formatter.format(timeDay);
-    // //timeDay.fo (
-    //     timeDay, [yyyy, '-', mm, '-', dd, ' ', hh, ':', nn, ':', ss]);
 
     attendance.add(tday);
 
@@ -182,13 +143,6 @@ class DatabaseService {
     });
   }
 
-  // Future updateUserAM(String am) async {
-  //   // final List<GetQuest> mikos =new List<GetQuest>();
-  //   return await answersCollection.document(uid).update({
-  //     'AM': am,
-  //   });
-  // }
-
   Future updateUserDataThougths(String thoughts) async {
     dateAfter = DateTime.now();
     String dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
@@ -197,28 +151,6 @@ class DatabaseService {
       '$dAfter thoughts': thoughts,
     });
   }
-
-  // List<GetAnswers> _answersFromSnapshots(QuerySnapshot snapshot) {
-  //   return snapshot.docs.map((doc) {
-  //     return GetAnswers(
-  //       input: doc.data['$dAfter '] ?? null,
-  //       dedomena: doc.data(),
-  //       //dedomena: doc.data(dAfter)  ?? [],
-  //       //parousies: doc.data['Attendance'],
-  //       // score: doc.data[' score'] ?? 0,
-  //       // thoughts: doc.data['$date thoughts'] ?? '',
-  //       // am: doc.data['AM'] ?? '0',
-  //       gender: doc.data['Gender'] ?? '',
-  //       born: doc.data['Birth_Date'] ?? '',
-  //     );
-  //   }).toList();
-  // }
-
-  // List<EventDate> _datesFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.docs.map((doc2) {
-  //     return EventDate.fromMap(doc2);
-  //   }).toList();
-  // }
 
   //user data from snapshot
 
@@ -233,50 +165,11 @@ class DatabaseService {
       userData = docSnap.data();
     });
 
-    // userData.uid = uid;
-    // userData = UserData.fromFirestore
     return userData;
-    // UserData(
-    //     uid: uid,
-    //     dedomena: ref.['$dAfter'] ?? '',
-    //     input: snapshot['$dAfter '] ?? '',
-    //     parousies: snapshot['Attendance'],
-    //     // questionsAnswer: snapshot.data['$date'],
-    //     score: snapshot['score'],
-    //     // am: snapshot.data['AM'],
-    //     gender: snapshot['Gender'],
-    //     born: snapshot['Birth_Date'],
-    //     thougths: snapshot['$date thoughts']);
   }
-
-//   Future<Stream<List<GetAnswers>>> get answers async{
-//     try {
-//     var documentSnapshot = await answersCollection
-//         .doc('yourDocumentId') // Replace with the specific document ID
-//         .get();
-
-//     if (documentSnapshot.exists) {
-//        List data = documentSnapshot.data();
-//  return data?.map(_answersFromSnapshots);
-//       // // Access fields in the document data
-//       // var field1 = data?['field1']; // Replace 'field1' with your field name
-//       // var field2 = data?['field2']; // Replace 'field2' with another field name
-//       // // Access and use retrieved field values
-//       // print('Field 1: $field1');
-//       // print('Field 2: $field2');
-//       // // Process the retrieved data as needed
-//     } else {
-//       print('Document does not exist');
-//     }
-//   } catch (e) {
-//     print('Error retrieving data: $e');
-//   }
-
-//   }
 
   //get user doc stream
   Stream<UserData?> get userData {
-    //answersCollection.doc(uid).snapshots().map(
     Stream<UserData?> streamApp =
         answersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
     return streamApp;

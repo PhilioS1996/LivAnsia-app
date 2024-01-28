@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ForgotPasswordDialog extends StatefulWidget {
+  const ForgotPasswordDialog({Key? key}) : super(key: key);
+
   @override
   State<ForgotPasswordDialog> createState() => _ForgotPasswordDialogState();
 }
@@ -21,7 +23,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Επαναφορά Κωδικού'),
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 200,
         child: Column(children: [
@@ -70,6 +72,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                     );
                   },
                 );
+                // ignore: unused_catch_clause
               } on FirebaseAuthException catch (e) {
                 // Email does not exist in Firebase database
                 // ignore: use_build_context_synchronously

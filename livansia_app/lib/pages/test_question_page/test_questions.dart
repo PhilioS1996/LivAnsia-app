@@ -1,5 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:livansia_app/helpers/imports.dart';
 
 class TestPage extends StatefulWidget {
@@ -30,7 +28,7 @@ class _TestPageState extends State<TestPage> {
         itemCount: (20 / 3).round(),
         controller: _pageController,
         itemBuilder: (context, index) {
-          return Container(
+          return SizedBox(
             height: MediaQuery.of(context).size.height,
             child: ListView.builder(
               itemCount: index,

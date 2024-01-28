@@ -1,4 +1,3 @@
-// ignore: file_names
 import '../helpers/imports.dart';
 
 void showSnackbar(BuildContext context, String text,
@@ -16,7 +15,8 @@ void showSnackbar(BuildContext context, String text,
           child: Center(
               child: Text(text,
                   style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.subtitle1!.fontSize,
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize,
                       color: Colors.white)))),
       backgroundColor: color,
     ),

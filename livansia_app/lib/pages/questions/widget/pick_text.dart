@@ -4,7 +4,8 @@ class PickedText extends StatelessWidget {
   final String word;
   final int countTextVal;
 
-  PickedText({required this.word, required this.countTextVal});
+  const PickedText({Key? key, required this.word, required this.countTextVal})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

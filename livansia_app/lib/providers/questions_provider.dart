@@ -1,13 +1,9 @@
-import 'dart:ffi';
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:livansia_app/global/show_snackBar.dart';
+import 'package:livansia_app/global/show_snack_bar.dart';
 import 'package:livansia_app/helpers/imports.dart';
+import 'package:livansia_app/providers/database_firebase.dart';
 
 import '../../models/get_quest.dart';
-import '../global/functions/database_firebase.dart';
 import '../models/slider_answer_model.dart';
 import '../services/authedication_service.dart';
 
@@ -20,6 +16,13 @@ class QuestionsProvider with ChangeNotifier {
   TextEditingController appUseController = TextEditingController();
   TextEditingController textBoxController = TextEditingController();
   Color doubleTextContainerColor = const Color(0x2C009687);
+  final FocusNode _focusNode1 = FocusNode();
+  final FocusNode _focusNode2 = FocusNode();
+  final FocusNode _focusNodeBox = FocusNode();
+
+  FocusNode get focusNode1 => _focusNode1;
+  FocusNode get focusNode2 => _focusNode2;
+  FocusNode get focusNodeBox => _focusNodeBox;
 
   TextEditingController get screenTimeContr => screenTimeController;
   TextEditingController get appUseContr => appUseController;
@@ -146,6 +149,7 @@ class QuestionsProvider with ChangeNotifier {
     final authService = Provider.of<AuthService>(context,
         listen: false); // Access AuthService using Provider
     DateTime attedance = DateTime.now();
+    // ignore: unnecessary_null_comparison
     if (authService != null) {
       // Check if AuthService instance exists
       final user = authService.userSignIn;
@@ -158,6 +162,7 @@ class QuestionsProvider with ChangeNotifier {
     final authService = Provider.of<AuthService>(context,
         listen: false); // Access AuthService using Provider
     DateTime attedance = DateTime.now();
+    // ignore: unnecessary_null_comparison
     if (authService != null) {
       // Check if AuthService instance exists
       final user = authService.userSignIn;

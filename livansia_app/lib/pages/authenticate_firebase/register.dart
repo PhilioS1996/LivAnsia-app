@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:livansia_app/global/loading.dart';
 import 'package:livansia_app/pages/authenticate_firebase/sign_in.dart';
 import 'package:livansia_app/pages/wrapper.dart';
@@ -9,7 +8,8 @@ import '../../services/authedication_service.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
-  Register({required this.toggleView});
+  // ignore: prefer_const_constructors_in_immutables
+  Register({Key? key, required this.toggleView}) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Παρουσιάστηκε Σφάλμα'),
+        title: const Text('Παρουσιάστηκε Σφάλμα'),
         content: Text(message),
         actions: <Widget>[
           Container(
@@ -161,14 +161,7 @@ class _RegisterState extends State<Register> {
                             const SizedBox(
                               height: 20.0,
                             ),
-                            // Container(
-                            //   padding: const EdgeInsets.symmetric(
-                            //       horizontal: 30.0, vertical: 4),
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.teal[100],
-                            //     borderRadius: BorderRadius.circular(18.0),
-                            //   ),
-                            //   child:
+
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -181,7 +174,10 @@ class _RegisterState extends State<Register> {
                                     horizontal: 30.0, vertical: 4),
                                 child: const Text(
                                   'Εγγραφή',
-                                  style: TextStyle(color: Colors.black54),
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
                               onPressed: () async {
@@ -227,7 +223,7 @@ class _RegisterState extends State<Register> {
                             // ),
                             TextButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
+                                backgroundColor: Colors.transparent,
                               ),
                               child: Text(
                                 'Είσοδος',

@@ -1,15 +1,12 @@
 import 'dart:async';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:livansia_app/global/show_snackBar.dart';
+import 'package:livansia_app/global/show_snack_bar.dart';
 import 'package:livansia_app/pages/first_page.dart';
-import 'package:livansia_app/providers/questions_provider.dart';
-
-import '../global/functions/database_firebase.dart';
+import 'package:livansia_app/providers/database_firebase.dart';
 import '../helpers/imports.dart';
 
 class AuthService with ChangeNotifier {
+  // ignore: unused_field
   Timer? _timer;
   FirebaseAuth? _auth;
   User? userInstance;
@@ -39,7 +36,6 @@ class AuthService with ChangeNotifier {
   //sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      print('$email $password');
       UserCredential result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
@@ -86,6 +82,7 @@ class AuthService with ChangeNotifier {
 
       return _userFromFirebaseUser(userInstance!);
     } on FirebaseException catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackbar(context, e.toString());
       if (kDebugMode) {
         print(e.toString());
@@ -99,7 +96,7 @@ class AuthService with ChangeNotifier {
     try {
       //_timer.cancel();
       if (_auth == null) {
-        return FirstScreen();
+        return const FirstScreen();
       }
       return await _auth!.signOut();
     } catch (e) {

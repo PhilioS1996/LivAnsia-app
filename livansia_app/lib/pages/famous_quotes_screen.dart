@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:livansia_app/global/app_drawer.dart';
-
+import 'package:livansia_app/providers/database_questions_firestore.dart';
 import 'package:provider/provider.dart';
-
-import '../global/functions/database_questions_firestore.dart';
 import 'questions/widget/quotes_tile.dart';
 import 'welcome_screens/welcome_screen.dart';
 
@@ -38,7 +36,7 @@ class Famous extends StatelessWidget {
           )
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: Scrollbar(
           child: SingleChildScrollView(

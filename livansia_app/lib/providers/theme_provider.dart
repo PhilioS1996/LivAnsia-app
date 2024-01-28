@@ -6,9 +6,7 @@ class ThemeNotifier with ChangeNotifier {
   ThemeData darkThemeData = ThemeData();
 
   Future<void> setThemeMode() async {
-    var result;
-
-    result = await (SharedPrefs.prefGet(StringPrefs.appTheme, true));
+    var result = await (SharedPrefs.prefGet(StringPrefs.appTheme, true));
 
     if (result) {
       themeMode = ThemeMode.light;

@@ -1,8 +1,9 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:livansia_app/global/functions/database_questions_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/wrapper.dart';
+import 'package:livansia_app/providers/database_questions_firestore.dart';
 import 'package:livansia_app/providers/questions_provider.dart';
 import 'package:livansia_app/providers/user_provider.dart';
 import 'package:livansia_app/services/authedication_service.dart';
@@ -13,6 +14,10 @@ import 'helpers/imports.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Request permission for notifications (only necessary on Android)
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission();
+
   runApp(
     MultiProvider(
       providers: [

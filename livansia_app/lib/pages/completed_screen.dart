@@ -1,16 +1,9 @@
 import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:livansia_app/global/app_drawer.dart';
-import 'package:livansia_app/global/loading.dart';
 import 'package:livansia_app/helpers/imports.dart';
-import 'package:livansia_app/models/getQuote.dart';
 import 'package:livansia_app/pages/questions/widget/quotes_tile.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_screen.dart';
-
-import '../global/functions/database_questions_firestore.dart';
+import '../providers/database_questions_firestore.dart';
 import '../providers/questions_provider.dart';
 
 class CompletedScreen extends StatefulWidget {
@@ -47,7 +40,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
                 color: Colors.black87), // Set the desired color for the icon,
             backgroundColor: Colors.teal[100],
           ),
-          drawer: AppDrawer(),
+          drawer: const AppDrawer(),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Column(
@@ -142,7 +135,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WelcomeScreen()));
+                            builder: (context) => const WelcomeScreen()));
                   },
                 )
               ],

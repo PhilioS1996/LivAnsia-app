@@ -1,65 +1,57 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
-
-import 'package:livansia_app/global/loading.dart';
-import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_screen.dart';
 import 'package:livansia_app/services/authedication_service.dart';
-
 import 'package:provider/provider.dart';
-
 import '../../global/app_drawer.dart';
-import '../../global/functions/database_firebase.dart';
-import '../../models/users.dart';
+import '../../providers/database_firebase.dart';
 
 bool _isButtonDisCal = true;
 
 class WelcomeRegister extends StatefulWidget {
+  const WelcomeRegister({Key? key}) : super(key: key);
+
   @override
+  // ignore: library_private_types_in_public_api
   _WelcomeRegisterState createState() => _WelcomeRegisterState();
 }
 
 class _WelcomeRegisterState extends State<WelcomeRegister> {
-  final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
   final ageTextController = TextEditingController();
   bool _isButtonDisGen = true;
-  //bool _isButtonDisAm = true;
   Gender selectedGender = Gender.Male;
-  String _selectedDate = 'Πάτα για επιλογή';
   int selectedOptionJob = -1;
   int useSocial = -1;
-
   String? genderType = '';
-
-  int _radioValue1 = -1;
-  // int _radioValue2 = -1;
 
   bool allCheck() {
     bool res = false;
     if (ageTextController.text.isNotEmpty) {
       setState(() {
         _isButtonDisCal = false;
-        born = '${ageTextController.text} age';
+        born = ageTextController.text;
       });
+      if (!_isButtonDisCal &&
+          !_isButtonDisGen &&
+          selectedOptionJob != -1 &&
+          useSocial != -1) {
+        //if (!_isButtonDisGen) {
+        res = true;
+        // print('to res einai $res');
+        return res;
+        //}
+      } else {
+        // print('to res einai $res');
+        res = false;
+        return res;
+      }
     } else {
       setState(() => _isButtonDisCal = true);
-    }
-    if (!_isButtonDisCal &&
-        !_isButtonDisGen &&
-        selectedOptionJob != -1 &&
-        useSocial != -1) {
-      //if (!_isButtonDisGen) {
-      res = true;
-      // print('to res einai $res');
-      return res;
-      //}
-    } else {
-      // print('to res einai $res');
+      res = false;
+
       return res;
     }
   }
@@ -74,18 +66,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
   @override
   Widget build(BuildContext context) {
     final authServiceProv = Provider.of<AuthService>(context, listen: true);
-    //authServiceProv.setUserSignIn();
 
-    // return
-    // StreamBuilder<UserData?>(
-    //   stream: DatabaseService(uid: authServiceProv.userSignIn!.uid).userData,
-    //   // userProvider.userInstance?.uid != null
-    //   //     ? DatabaseService(uid: userProvider.userInstance!.uid).userData
-    //   //     : AuthScreen(),
-    //   builder: (context, snapshot) {
-    //     UserData? userData = snapshot.data;
-
-    //     if (snapshot.hasData) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal[100],
@@ -98,9 +79,9 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
             ),
             fit: BoxFit.cover),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -241,7 +222,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                           });
                                         },
                                       ),
-                                      Text('Φοιτήτρια/της'),
+                                      const Text('Φοιτήτρια/της'),
                                     ],
                                   ),
                                 ),
@@ -259,7 +240,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                           });
                                         },
                                       ),
-                                      Text('Άνεργος'),
+                                      const Text('Άνεργος'),
                                     ],
                                   ),
                                 )
@@ -310,15 +291,16 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                 onChanged: (gender) {
                                   if (kDebugMode) {
                                     print('---------${gender?.name}');
-                                    setState(() {
-                                      genderType = gender?.name;
-                                      selectedGender = gender!;
-                                      _isButtonDisGen = false;
-                                    });
                                   }
+                                  setState(() {
+                                    genderType = gender?.name;
+                                    selectedGender = gender!;
+                                    _isButtonDisGen = false;
+                                  });
                                 },
                                 equallyAligned: true,
-                                animationDuration: Duration(milliseconds: 300),
+                                animationDuration:
+                                    const Duration(milliseconds: 300),
                                 isCircular: true,
                                 // default : true,
                                 opacityOfGradient: 0.4,
@@ -464,7 +446,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => WelcomeScreen()),
+                              builder: (context) => const WelcomeScreen()),
                         );
                       },
                 child: Container(

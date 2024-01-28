@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:livansia_app/helpers/imports.dart';
-import 'package:livansia_app/models/getQuote.dart';
+import 'package:livansia_app/models/get_quote.dart';
 
 import '../../models/get_quest.dart';
 // import '../../models/getQuote.dart';
@@ -15,7 +14,12 @@ class DatabaseServiceProvider with ChangeNotifier {
 
   final CollectionReference famousQ =
       FirebaseFirestore.instance.collection('FamousQ');
+  final CollectionReference answersCollection =
+      FirebaseFirestore.instance.collection('Answers2');
 
+  String ageUser = '';
+  String genderUser = '';
+  String jobUser = '';
   List<GetQuest>? listQuestions = [];
   List<String>? listQuotes = [];
 
@@ -125,6 +129,91 @@ class DatabaseServiceProvider with ChangeNotifier {
   //       .map(_quotesFromSnapshot);
   // }
 
+  Future getUserAge(uid) async {
+    try {
+      // Use await to wait for the completion of the Future<DocumentSnapshot>
+      DocumentSnapshot documentSnapshot =
+          await answersCollection.doc(uid).get();
+
+      // Check if the document exists before accessing data
+      if (documentSnapshot.exists) {
+        ageUser = documentSnapshot['Age'];
+        notifyListeners();
+      } else {
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error retrieving data: $e');
+      }
+    }
+  }
+
+  Future getUserGender(uid) async {
+    try {
+      // Use await to wait for the completion of the Future<DocumentSnapshot>
+      DocumentSnapshot documentSnapshot =
+          await answersCollection.doc(uid).get();
+
+      // Check if the document exists before accessing data
+      if (documentSnapshot.exists) {
+        // Access data() on the DocumentSnapshot
+        // var userData = documentSnapshot.data();
+        genderUser = documentSnapshot['Gender'];
+
+        notifyListeners();
+      } else {
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error retrieving data: $e');
+      }
+    }
+  }
+
+  Future getUserJob(uid) async {
+    try {
+      // Use await to wait for the completion of the Future<DocumentSnapshot>
+      DocumentSnapshot documentSnapshot =
+          await answersCollection.doc(uid).get();
+
+      // Check if the document exists before accessing data
+      if (documentSnapshot.exists) {
+        var tempJob = documentSnapshot['Job_Key'];
+        switch (tempJob) {
+          case 1:
+            jobUser = "Εργαζόμενη/ος";
+            break;
+          case 2:
+            jobUser = "Φοιτήτρια/της";
+            break;
+          case 3:
+            jobUser = "Άνεργος";
+            break;
+          default:
+            jobUser = '';
+        }
+
+        notifyListeners();
+      } else {
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
+        return null; // Or handle the case where the document doesn't exist
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error retrieving data: $e');
+      }
+      return null; // Or handle the error as needed
+    }
+  }
+
   Future<void> fetchData() async {
     try {
       // Get a reference to the "Quotes" collection
@@ -134,25 +223,23 @@ class DatabaseServiceProvider with ChangeNotifier {
       // Get a reference to the "category3" document
       DocumentSnapshot category3Document =
           await quotesCollection.doc('category3').get();
-      print('category3Document   $category3Document');
       // Check if the document exists
       if (category3Document.exists) {
         // Retrieve data from the "category3" document
-        // Retrieve data from the "category3" document
         List<dynamic> rawTexts = category3Document['textL'];
-        print(rawTexts);
+
         // Cast the dynamic list to the correct type (List<GetQuotes>)
         GetQuotes texts = (GetQuotes(text: rawTexts));
         listQuotes = texts.text.cast<String>();
-        // Use the retrieved data (in this example, print the texts)
-        // for (var text in listQuotes!) {
-        //   print(text);
-        // }
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      if (kDebugMode) {
+        print('Error fetching data: $e');
+      }
     }
   }
 }

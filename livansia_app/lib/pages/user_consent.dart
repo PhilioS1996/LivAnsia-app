@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:livansia_app/pages/wrapper.dart';
 
@@ -6,7 +5,7 @@ import 'authenticate_firebase/register.dart';
 
 class Consent extends StatelessWidget {
   final Function toggleView;
-  Consent({required this.toggleView});
+  const Consent({Key? key, required this.toggleView}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class Consent extends StatelessWidget {
                       )
                     ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 80,
               ),
               BottomAppBar(
@@ -63,40 +62,66 @@ class Consent extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.teal[100],
-                        borderRadius: BorderRadius.circular(30),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        backgroundColor: Colors.teal[100],
                       ),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => Wrapper(apoPou: false)),
-                          );
-                        },
-                        child: const Text('Διαφωνώ'),
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Wrapper(apoPou: false)),
+                        );
+                      },
+                      child: Container(
+                        // width: 310,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10),
+                        child: const Text(
+                          'Διαφωνώ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 20,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.teal[100],
-                        borderRadius: BorderRadius.circular(30),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        backgroundColor: Colors.teal[100],
                       ),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) =>
-                                    Register(toggleView: toggleView)),
-                          );
-                        },
-                        child: const Text('Συμφωνώ'),
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Register(toggleView: toggleView)),
+                        );
+                      },
+                      child: Container(
+                        // width: 310,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10),
+                        child: const Text(
+                          'Συμφωνώ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     )
                   ],

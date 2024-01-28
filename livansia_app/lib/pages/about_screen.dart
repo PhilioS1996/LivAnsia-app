@@ -1,15 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:livansia_app/global/app_drawer.dart';
-import 'package:livansia_app/global/functions/database_firebase.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_screen.dart';
-import 'package:livansia_app/services/authedication_service.dart';
-
-import 'package:provider/provider.dart';
-
-import '../models/users.dart';
 
 class About extends StatelessWidget {
+  const About({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +35,7 @@ class About extends StatelessWidget {
           )
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: const SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -58,14 +53,12 @@ class About extends StatelessWidget {
                     Text(
                       'Η εφαρμογή LivAnsia έχει αναπτυχθεί στα πλαίσια διπλωματικής εργασίας, του τμήματος Μηχανικών Η/Υ και Πληροφορικής Πατρών από τη Συμεωνίδη Τριανταφυλλιά και ανήκει στην κατηγορία των self-reporting εφαρμογών.\nΗ εφαρμογή απευθύνεται σε φοιτητές και βασική της λειτουργία είναι η μέτρηση των επιπέδων του άγχους που μπορεί να βιώνουν, σε μία συγκεκριμένη χρονική περίοδο, λόγω ακαδημαϊκών τους υποχρεώσεων.\nΗ μέτρηση αυτή, στην εφαρμογή γίνεται απαντώντας σε λίγες και απλές ερωτήσεις, τα αποτελέσματα των οποίων προσμετρώνται ως σκορ (score) και λειτουργεί ως δείκτης στην κλίμακα του άγχους.',
                       style: TextStyle(
-                        fontStyle: FontStyle.italic,
                         fontSize: 20,
                       ),
                     ),
                     Text(
                       'Το μόντέλο του ερωτηματολογίου έχει βασιστεί στο State-Trait Anxiety Inventory (STAI) του Spielberger C.D. και στη εφαρμογή χρησιμοποιείται η συμπυκνωμένη έκδοση που αναπτύχθηκε απο τους Marteau TM και Bekker H.',
                       style: TextStyle(
-                        fontStyle: FontStyle.italic,
                         fontSize: 20,
                       ),
                     )

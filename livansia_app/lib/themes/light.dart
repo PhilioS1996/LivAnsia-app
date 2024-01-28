@@ -8,8 +8,6 @@ ThemeData lightTheme = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   dividerColor: Colors.grey,
   focusColor: Colors.blue,
-  // buttonColor: Colors.white,
-  selectedRowColor: Colors.grey[300],
   cardColor: Colors.grey[300],
   dividerTheme: DividerThemeData(color: Colors.grey[100]),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -83,7 +81,7 @@ ThemeData lightTheme = ThemeData(
           textStyle: MaterialStateProperty.resolveWith(
               (_) => const TextStyle(color: Colors.white)))),
   toggleButtonsTheme: ToggleButtonsThemeData(
-    borderRadius: BorderRadius.all(Radius.elliptical(32, 32)),
+    borderRadius: const BorderRadius.all(Radius.elliptical(32, 32)),
     color: Colors.white,
     fillColor: Colors.blue[700],
   ),

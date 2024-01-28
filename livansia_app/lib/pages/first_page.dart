@@ -7,6 +7,8 @@ import 'package:livansia_app/pages/user_consent.dart';
 import 'authenticate_firebase/sign_in.dart';
 
 class FirstScreen extends StatefulWidget {
+  const FirstScreen({Key? key}) : super(key: key);
+
   @override
   _FirstScreenState createState() => _FirstScreenState();
 }

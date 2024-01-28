@@ -5,8 +5,6 @@ import 'package:livansia_app/providers/questions_provider.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../global/functions/database_firebase.dart';
-
 bool loading = false;
 String thougths = '';
 bool scoreCheck = false;
@@ -20,15 +18,6 @@ class BottomThoughtBox extends StatefulWidget {
 }
 
 class _BottomThoughtBoxState extends State<BottomThoughtBox> {
-  FocusNode _focusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _focusNode
-        .dispose(); // Dispose of the focus node when the widget is disposed
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final questionsProvider =
@@ -37,6 +26,7 @@ class _BottomThoughtBoxState extends State<BottomThoughtBox> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         TextFormField(
+            focusNode: questionsProvider.focusNodeBox,
             controller: questionsProvider.textBoxController,
             maxLines: 5,
             // maxLength: 200,

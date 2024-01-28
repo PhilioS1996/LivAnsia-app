@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/wrapper.dart';
 
@@ -22,7 +21,7 @@ class _StreamAuthPageState extends State<StreamAuthPage> {
           } else if (snapshot.hasData) {
             return Wrapper(apoPou: false);
           } else {
-            return FirstScreen();
+            return const FirstScreen();
           }
         });
   }

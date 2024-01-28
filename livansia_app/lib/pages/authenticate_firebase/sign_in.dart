@@ -1,11 +1,7 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:livansia_app/helpers/imports.dart';
 import 'package:livansia_app/pages/authenticate_firebase/register.dart';
 import 'package:livansia_app/pages/wrapper.dart';
-import 'package:livansia_app/providers/user_provider.dart';
-
 import '../../global/loading.dart';
 import '../../services/authedication_service.dart';
 import 'widget/forgot_pass_window.dart';
@@ -15,6 +11,7 @@ class SignIn extends StatefulWidget {
   const SignIn({Key? key, required this.toggleView}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignInState createState() => _SignInState();
 }
 
@@ -37,6 +34,7 @@ class _SignInState extends State<SignIn> {
   bool eimaiSign = true;
   bool _showPassword = false;
 
+  // ignore: unused_element
   void _showChangeDialog(String mes) {
     showDialog(
       context: context,
@@ -69,18 +67,14 @@ class _SignInState extends State<SignIn> {
         title: const Text('Παρουσιάστηκε Σφάλμα'),
         content: Text(message),
         actions: <Widget>[
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.indigo[200],
-              borderRadius: BorderRadius.circular(18.0),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.indigo[300],
             ),
-            child: ElevatedButton(
-              child: const Text('Εντάξει'),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-            ),
+            child: const Text('Εντάξει'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
           )
         ],
       ),
@@ -96,7 +90,7 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             body: Container(
               padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
+                vertical: 80.0,
                 horizontal: 80.0,
               ),
               decoration: const BoxDecoration(color: Colors.white10),
@@ -128,10 +122,14 @@ class _SignInState extends State<SignIn> {
                                 ? 'Καταχώρησε ένα όνομα για το χρήστη.'
                                 : null,
                             onChanged: (val) {
-                              print('val ${val}');
+                              if (kDebugMode) {
+                                print('val $val');
+                              }
                               setState(() {
                                 _isButtonDis = !_isButtonDis;
-                                print(_isButtonDis);
+                                if (kDebugMode) {
+                                  print(_isButtonDis);
+                                }
                                 email = '${val.toLowerCase()}@example.com';
                               });
                               // setState(() {
@@ -141,7 +139,9 @@ class _SignInState extends State<SignIn> {
                             onEditingComplete: () {
                               setState(() {
                                 _isButtonDis = !_isButtonDis;
-                                print(_isButtonDis);
+                                if (kDebugMode) {
+                                  print(_isButtonDis);
+                                }
                               });
                             },
                           ),
@@ -201,7 +201,9 @@ class _SignInState extends State<SignIn> {
                                       .signInWithEmailAndPassword(
                                           email, password)
                                       .then((resultUser) {
-                                    print(resultUser.toString());
+                                    if (kDebugMode) {
+                                      print(resultUser.toString());
+                                    }
                                     if (resultUser is! Users) {
                                       if (resultUser
                                           .toString()
@@ -230,13 +232,15 @@ class _SignInState extends State<SignIn> {
                                   });
                                 }
                               } catch (e) {
-                                print('${e.toString()}');
+                                if (kDebugMode) {
+                                  print(e.toString());
+                                }
                               }
                             },
                           ),
                           TextButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
+                              backgroundColor: Colors.transparent,
                             ),
                             child: Text(
                               'Εγγραφή',
@@ -255,33 +259,29 @@ class _SignInState extends State<SignIn> {
                           TextButton(
                             onPressed: !_isButtonDis
                                 ? () async {
-                                    print('!_isButtonDis');
                                     final snackbar = SnackBar(
                                       content: const Text(
                                           'Πρέπει να εισάγεις πρώτα το ψευδώνυμό σου.'),
                                       action: SnackBarAction(
-                                          label: 'Ok', onPressed: () => null),
+                                          label: 'Ok', onPressed: () => ''),
                                     );
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         snackbar); // Show the SnackBar
                                   }
                                 : () async {
-                                    print('_isButtonDis');
+                                    if (kDebugMode) {
+                                      print('_isButtonDis');
+                                    }
 
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return ForgotPasswordDialog();
+                                        return const ForgotPasswordDialog();
                                       },
                                     );
-
-                                    // _auth.resetPassword(email);
-                                    // String message =
-                                    //     'Θα σου Aποσταλεί email για Αλλαγή Kωδικού.';
-                                    // _showChangeDialog(message);
                                   },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
+                              backgroundColor: Colors.transparent,
                             ),
                             child: Text(
                               'Ξέχασες τον κωδικό σου;',

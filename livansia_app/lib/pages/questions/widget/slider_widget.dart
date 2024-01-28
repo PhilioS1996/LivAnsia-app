@@ -1,8 +1,5 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:livansia_app/pages/questions/widget/pickText.dart';
+import 'package:livansia_app/pages/questions/widget/pick_text.dart';
 import 'package:livansia_app/providers/questions_provider.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../../helpers/imports.dart';
 

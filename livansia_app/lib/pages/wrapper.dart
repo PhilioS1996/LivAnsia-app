@@ -1,25 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:livansia_app/global/loading.dart';
 import 'package:livansia_app/helpers/imports.dart';
 import 'package:livansia_app/pages/first_page.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_register.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_screen.dart';
-import 'package:livansia_app/services/authedication_service.dart';
-
-import 'package:provider/provider.dart';
+import 'package:livansia_app/services/push_notification_service.dart';
 
 class Wrapper extends StatelessWidget {
   final bool apoPou;
-
+  // ignore: unused_field
+  final PushNotificationsService _pushNotificationService =
+      PushNotificationsService();
   Wrapper({Key? key, required this.apoPou}) : super(key: key);
-
-  // final PushNotificationsService _pushNotificationService =
-  //     PushNotificationsService();
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<AuthService>(context, listen: false);
-
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -29,28 +22,17 @@ class Wrapper extends StatelessWidget {
             //return WelcomeScreen();
             switch (apoPou) {
               case true:
-                return WelcomeScreen();
+                return const WelcomeScreen();
 
               case false:
-                return WelcomeRegister();
+                return const WelcomeRegister();
 
               default:
-                return WelcomeScreen();
+                return const WelcomeScreen();
             }
           } else {
-            return FirstScreen();
+            return const FirstScreen();
           }
         });
-    // if (userProvider.userInstance == null) {
-    //   return AuthScreen();
-    // } else {
-    //   //return WelcomeScreen();
-    //   switch (apoPou) {
-    //     case true:
-    //       return WelcomeScreen();
-
-    //     case false:
-    //       return WelcomeRegister();
-    //   }
   }
 }
