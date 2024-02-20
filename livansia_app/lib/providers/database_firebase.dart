@@ -90,7 +90,10 @@ class DatabaseService with ChangeNotifier {
 
     try {
       dateAfter = DateTime.now();
-      var dAfter = DateFormat.yMMMd().add_jm().format(dateAfter);
+
+      DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+
+      var dAfter = formatter.format(dateAfter);
       Map<String, dynamic> answers = {};
 
       for (int count = 0; count < dedomena.length; count++) {

@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:livansia_app/models/get_answers.dart';
 import 'package:livansia_app/models/get_quote.dart';
-
+import 'package:intl/intl.dart';
 import '../../models/get_quest.dart';
 // import '../../models/getQuote.dart';
 
@@ -22,6 +23,8 @@ class DatabaseServiceProvider with ChangeNotifier {
   String jobUser = '';
   List<GetQuest>? listQuestions = [];
   List<String>? listQuotes = [];
+  List<DateTime> presentationDates = [];
+  Map<DateTime, List<dynamic>> eventsPresDates = <DateTime, List<dynamic>>{};
 
   List<GetQuest> _questionsFromSnapshot(QuerySnapshot snapshot) {
     final reference = questionnaireCol.withConverter(
@@ -128,6 +131,40 @@ class DatabaseServiceProvider with ChangeNotifier {
   //       .snapshots()
   //       .map(_quotesFromSnapshot);
   // }
+
+  Future printDocs(uid) async {
+    DocumentSnapshot documentSnapshot = await answersCollection.doc(uid).get();
+    RegExp regexNumbersOnly = RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$');
+    List<Answer> answers = [];
+
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      data.forEach((key, value) {
+        answers.add(Answer.fromJson({key: value}));
+      });
+      for (int j = 0; j < answers.length; j++) {
+        for (var element in answers[j].data.keys) {
+          print('mesa sti function ${answers[j].data.keys}');
+
+          if (regexNumbersOnly.hasMatch(element)) {
+            final dateString = element;
+            final formattedDate = dateString.replaceAll(' ', 'T');
+            final parsedDate =
+                DateFormat("yyyy-MM-dd'T'HH:mm").parse(formattedDate);
+            // DateTime date = DateFormat('y,M,d').parse(element);
+            print('mesa sti function $parsedDate');
+            presentationDates.add(parsedDate);
+            eventsPresDates[parsedDate] = ['Επιτυχείς Καταχώρηση'];
+          }
+        }
+      }
+    }
+
+    // for (int i = 0; i < answers.length; i++) {
+    //   print(answers[i]);
+    // }
+  }
 
   Future getUserAge(uid) async {
     try {

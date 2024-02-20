@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:livansia_app/pages/calendar_screen.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_register.dart';
 import 'package:livansia_app/providers/database_firebase.dart';
 import 'package:livansia_app/services/authedication_service.dart';
@@ -151,6 +152,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final authServiceProv = Provider.of<AuthService>(context, listen: true);
+
     final databaseProvider =
         Provider.of<DatabaseServiceProvider>(context, listen: false);
     authServiceProv.setUserSignIn();
@@ -196,12 +198,16 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                       width: 200,
                       child: Center(
                         child: Text(
-                          'Συνιστάται καθημερινή καταχώρηση.',
-                          style: TextStyle(fontSize: 11, color: Colors.grey),
+                          'Συνιστάται καθημερινή καταχώρηση στο τέλος της ημέρας σας.',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 60),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -229,6 +235,42 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                           ),
                         );
                       },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          backgroundColor: Colors.indigo[200],
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Ημερολόγιο Καταχωρήσεων',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        onPressed: () async {
+                          final user = authServiceProv.userSignIn?.uid;
+                          if (kDebugMode) {
+                            print(DateTime.now());
+                          }
+                          await databaseProvider
+                              .printDocs(user)
+                              .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CalendarScreen(),
+                                    ),
+                                  ));
+                        },
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

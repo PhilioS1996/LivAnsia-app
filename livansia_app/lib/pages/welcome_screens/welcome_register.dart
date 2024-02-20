@@ -21,7 +21,7 @@ class WelcomeRegister extends StatefulWidget {
 
 class _WelcomeRegisterState extends State<WelcomeRegister> {
   final ageTextController = TextEditingController();
-  bool _isButtonDisGen = true;
+  bool _isButtonDisGen = false;
   Gender selectedGender = Gender.Male;
   int selectedOptionJob = -1;
   int useSocial = -1;
@@ -64,22 +64,36 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
   }
 
   @override
+  void initState() {
+    genderType = selectedGender.name;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authServiceProv = Provider.of<AuthService>(context, listen: true);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal[100],
-        centerTitle: true,
+        // centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Image(
-            width: 50,
-            image: AssetImage(
-              "assets/6logo.png",
-            ),
-            fit: BoxFit.cover),
+        title: const Text(
+          'Πληροφορίες Χρήστη',
+          textAlign: TextAlign.left,
+          style: TextStyle(color: Colors.black87, fontSize: 14),
+        ),
+        // const Image(
+        //     width: 50,
+        //     image: AssetImage(
+        //       "assets/6logo.png",
+        //     ),
+        //     fit: BoxFit.cover),
+        actions: null,
+        automaticallyImplyLeading: false,
       ),
-      drawer: const AppDrawer(),
+
+      // drawer: const AppDrawer(),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
