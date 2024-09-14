@@ -1,2 +1,2 @@
 # LivAnsia-app
-A questionnerie submition app with Sign-Up/Login Functionality for user authentication system using Google Firebase database. It supports dynamic content changes and cloud notification system.
+A questionnaire submission app featuring Sign-Up/Login functionality for user authentication, powered by Google Firebase. The app supports dynamic content updates and includes a cloud-based notification system.
