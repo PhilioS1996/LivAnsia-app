@@ -1,8 +1,6 @@
-//gia to belaki kai to done sthn selida me tis ervthseis
-
+//the final box in the questionnaire. The text box.
 import 'package:flutter/material.dart';
 import 'package:livansia_app/providers/questions_provider.dart';
-
 import 'package:provider/provider.dart';
 
 bool loading = false;
@@ -29,7 +27,6 @@ class _BottomThoughtBoxState extends State<BottomThoughtBox> {
             focusNode: questionsProvider.focusNodeBox,
             controller: questionsProvider.textBoxController,
             maxLines: 5,
-            // maxLength: 200,
             decoration: InputDecoration(
               label: const Text(
                   'Πές μας δυο λόγια για αυτό: (αν δεν συμμετείχες, ποιος ήταν ο λόγος; σε βοήθησαν τα social media που σε ενημέρωσαν σχετικά;)'),
@@ -58,113 +55,10 @@ class _BottomThoughtBoxState extends State<BottomThoughtBox> {
               ),
             ),
             keyboardType: TextInputType.multiline,
-            //validator: (val) => '',
-            //val.length < 30 ? 'Παρακαλώ βάλε μία περιγραφή με 30+ γράμματα.' : '',
-            onChanged: (val) =>
-                // val.length >= 30
-                {
+            onChanged: (val) => {
                   setState(() => thougths = val),
                 }),
       ],
     );
   }
 }
-
-
-
-// class BottomThoughtBox extends StatefulWidget {
-//   @override
-//   _BottomThoughtBoxState createState() => _BottomThoughtBoxState();
-
-  
-// }
-
-
-
-// class _BottomThoughtBoxState extends State<BottomThoughtBox> {
-//   bool _isButtonDisabled = false;
-//   Widget build(BuildContext context) {
-//     final user = Provider.of<User>(context);
-
-//     // final snackbar = SnackBar(
-//     //   content: Text('Δεν έχεις συμπληρώσει το πεδίο με το κείμενο.'),
-//     //   action: SnackBarAction(label: 'Ok', onPressed: () => null),
-//     // );
-
-//     return StreamBuilder<UserData>(
-//       stream: user.uid != null
-//           ? DatabaseService(uid: user.uid).userData
-//           : AuthScreen(),
-//       builder: (context, snapshot) {
-//         try {
-//           if (snapshot.hasData) {
-//             UserData userData = snapshot.data;
-//             return Column(
-//               crossAxisAlignment: CrossAxisAlignment.end,
-//               children: <Widget>[
-//                 Align(
-//                   alignment: FractionalOffset.bottomLeft,
-
-//                   //child: Card(
-//                   //elevation: 1.5,
-
-//                   child: TextFormField(
-//                       maxLines: 5,
-//                       maxLength: 200,
-//                       decoration: InputDecoration(
-//                         hintText: '\tΛίγα λόγια για το πώς αισθάνεσαι.',
-//                         fillColor: Colors.pink,
-//                         border: new OutlineInputBorder(
-//                           borderRadius: new BorderRadius.circular(25.0),
-//                           borderSide: new BorderSide(
-//                             color: Colors.teal[100],
-//                           ),
-//                         ),
-//                       ),
-//                       keyboardType: TextInputType.multiline,
-//                       //validator: (val) => '',
-//                       //val.length < 30 ? 'Παρακαλώ βάλε μία περιγραφή με 30+ γράμματα.' : '',
-//                       onChanged: (val) =>
-//                           // val.length >= 30
-//                           {
-//                             setState(() => thougths = val),
-//                           }),
-//                 ),
-//                 Align(
-//                   alignment: Alignment.bottomRight,
-//                   child: RaisedButton(
-//                       elevation: 1.2,
-//                       animationDuration: Duration(seconds: 2),
-//                       color: Colors.indigo[200],
-//                       splashColor: Colors.teal[100],
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                       ),
-//                       child: Text('Τέλος'),
-//                       onPressed: () async {
-//                         setState(() => loading = true);
-//                         await DatabaseService(uid: user.uid)
-//                             .updateUserDataThougths(
-//                           thougths ?? userData.thougths,
-//                         );
-//                         DateTime timeDay = DateTime.now();
-//                         await DatabaseService(uid: user.uid)
-//                             .updateUserEvent(timeDay);
-//                         Navigator.push(
-//                           context,
-//                           new MaterialPageRoute(builder: (context) => Finish()),
-//                         );
-//                       }),
-//                 ),
-//               ],
-//             );
-//           } else {
-//             return Loading();
-//           }
-//         } catch (e) {
-//           print('lathos');
-//         }
-//       },
-//     );
-//   }
-// }

@@ -1,3 +1,5 @@
+// slider widget with choises for the answer as range
+// is not used in the updated version of the app as the type of the answers changed
 import 'package:livansia_app/pages/questions/widget/pick_text.dart';
 import 'package:livansia_app/providers/questions_provider.dart';
 

@@ -21,7 +21,7 @@ class _SignInState extends State<SignIn> {
     setState(() => showSignIn = !showSignIn);
   }
 
-  //kanw anafora sto arxeio auth.dart
+  //reference to auth.dart file
   final AuthService _auth = AuthService();
 
   final _formKey = GlobalKey<FormState>();
@@ -106,8 +106,6 @@ class _SignInState extends State<SignIn> {
                       width: 87,
                       image: AssetImage("assets/6logo.png"),
                     ),
-                    //SizedBox(height: 20.0),
-
                     Form(
                       key: _formKey,
                       child: SingleChildScrollView(
@@ -132,9 +130,6 @@ class _SignInState extends State<SignIn> {
                                 }
                                 email = '${val.toLowerCase()}@example.com';
                               });
-                              // setState(() {
-                              //   _isButtonDis = !_isButtonDis;
-                              // });
                             },
                             onEditingComplete: () {
                               setState(() {

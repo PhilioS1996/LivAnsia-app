@@ -2,13 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:livansia_app/models/users.dart';
-
 import '../../models/slider_answer_model.dart';
-
-// import '../../models/getAnswers.dart';
-
-List atte = [];
-//List katiii;
 
 class DatabaseService with ChangeNotifier {
   final String uid;
@@ -30,7 +24,6 @@ class DatabaseService with ChangeNotifier {
 
   var dateAfter;
   var dAfter;
-  // List questionsAnswers;
   int score = 0;
 
   Future setUserEvents(DateTime logEvent) async {

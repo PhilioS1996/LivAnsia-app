@@ -29,10 +29,8 @@ class _RegisterState extends State<Register> {
   String password = '';
   String error = '';
   bool eimaiRegister = false;
-
   bool _showPassword = false;
   bool _showPassword2 = false;
-
   final _passwordController = TextEditingController();
 
   void _showErrorDialog(String message) {
@@ -48,8 +46,6 @@ class _RegisterState extends State<Register> {
               borderRadius: BorderRadius.circular(18.0),
             ),
             child: ElevatedButton(
-              //elevation: 1.2,
-
               child: const Text('Εντάξει'),
               onPressed: () {
                 Navigator.of(ctx).pop();
@@ -64,7 +60,6 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-
     return loading
         ? const LoadingSpin()
         : Scaffold(
@@ -77,7 +72,6 @@ class _RegisterState extends State<Register> {
                 decoration: const BoxDecoration(color: Colors.white10),
                 height: deviceSize.height,
                 width: deviceSize.width,
-                //child: SingleChildScrollView(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -251,7 +245,6 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ]),
-                //),
               ),
             ),
           );

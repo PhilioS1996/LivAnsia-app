@@ -102,7 +102,6 @@ class _YesNoWidgetState extends State<YesNoWidget> {
           ),
         ),
         Visibility(
-          // maintainSize: true,
           maintainAnimation: true,
           maintainState: true,
           visible: extraQuestion,
@@ -125,7 +124,6 @@ class _YesNoWidgetState extends State<YesNoWidget> {
                   const ListTile(
                     contentPadding: EdgeInsets.only(
                       left: 15,
-                      // bottom: 27,
                     ),
                     title: Text(
                       'Θα ήθελες να είσαι περισσότερο ενημερωμένος?',

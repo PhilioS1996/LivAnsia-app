@@ -228,6 +228,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                       onPressed: () async {
                         await databaseProvider.fetchData();
+                        // ignore: use_build_context_synchronously
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -448,9 +449,6 @@ class WelcomeScreenState extends State<WelcomeScreen> {
 
   Future<void> _selectDate(BuildContext context) async {
     final datePick = await showDatePicker(
-        // theme: ThemeData(
-        //   primaryColor: Colors.teal[100],
-        // ),
         context: context,
         initialDate: birthDate ?? DateTime.now(),
         firstDate: DateTime(1900),
@@ -459,8 +457,6 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       setState(() {
         birthDate = datePick;
         isDateSelected = true;
-        //setState(() => _isButtonDisCal = false);
-        // put it here
         born =
             "${birthDate!.month}/${birthDate!.day}/${birthDate!.year}"; // 08/14/2019
         _selectedDate = born!;

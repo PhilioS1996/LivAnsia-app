@@ -23,7 +23,6 @@ class QuestionTile extends StatelessWidget {
               ListTile(
                 contentPadding: const EdgeInsets.only(
                   left: 15,
-                  // bottom: 27,
                 ),
                 title: Text(
                   question1['name'],
@@ -34,7 +33,6 @@ class QuestionTile extends StatelessWidget {
                   ),
                 ),
               ),
-              // ),
               answerTypeWidget(index),
               const SizedBox(
                 height: 20.0,

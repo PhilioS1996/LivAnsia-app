@@ -61,12 +61,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<String> future() async {
     final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    // final languageNotifier =
-    //     Provider.of<LanguageNotifier>(context, listen: false);
-
     await themeNotifier.setThemeMode();
-
-    //await languageNotifier.getLocale();
 
     //What is _loading : the start page as we wait for data to set, loader showed.
     Future.delayed(const Duration(seconds: 1), () {
@@ -81,23 +76,20 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     //set providers
     final themeNotifier = Provider.of<ThemeNotifier>(context);
-    //final languageNotifier = Provider.of<LanguageNotifier>(context);
     return MaterialApp(
       title: 'Flutter Demo',
       themeMode: themeNotifier.themeMode,
       theme: themeNotifier.themeData,
-      home:
-          //const Wrapper(apoPou: true),
-          FutureBuilder(
-              future: future(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Wrapper(apoPou: true);
-                } else if (snapshot.connectionState == ConnectionState.none) {
-                  return const Text("No data");
-                }
-                return const LoadingSpin();
-              }),
+      home: FutureBuilder(
+          future: future(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Wrapper(apoPou: true);
+            } else if (snapshot.connectionState == ConnectionState.none) {
+              return const Text("No data");
+            }
+            return const LoadingSpin();
+          }),
     );
   }
 }

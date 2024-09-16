@@ -112,8 +112,3 @@ class AuthService with ChangeNotifier {
     _timer = Timer.periodic(const Duration(days: 2), (_) => _auth!.signOut());
   }
 }
-
-// if (date != null &&
-//         date == date.add(Duration(minutes: 2/*hours: 1*/)) &&
-//         user != null) {
-//       return  User(uid: user.uid);

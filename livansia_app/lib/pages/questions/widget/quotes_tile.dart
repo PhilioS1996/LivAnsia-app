@@ -1,3 +1,4 @@
+// the tile design for the quotes display
 import 'package:flutter/material.dart';
 
 class QuotesTile extends StatelessWidget {
@@ -9,9 +10,6 @@ class QuotesTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        // SizedBox(
-        //   height:200,
-        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
           child: Card(

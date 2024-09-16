@@ -3,8 +3,6 @@ import '../helpers/imports.dart';
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.blue,
-  //primarySwatch: Colors.purple,
-  //primaryColor: Colors.deepPurpleAccent[700],
   visualDensity: VisualDensity.adaptivePlatformDensity,
   dividerColor: Colors.grey,
   focusColor: Colors.blue,
@@ -63,14 +61,6 @@ ThemeData lightTheme = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
         primary: Colors.tealAccent[200], onPrimary: Colors.white),
-    // ButtonStyle(
-    //   backgroundColor:
-    //       MaterialStateProperty.resolveWith((_) => Colors.tealAccent[200]),
-    //   foregroundColor: MaterialStateProperty.resolveWith((_) => Colors.white),
-    //   textStyle: MaterialStateProperty.resolveWith(
-    //     (_) => const TextStyle(color: Colors.white),
-    //   ),
-    // ),
   ),
   textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
@@ -87,12 +77,9 @@ ThemeData lightTheme = ThemeData(
   ),
   iconTheme: const IconThemeData(color: Colors.blue),
   primaryIconTheme: const IconThemeData(color: Colors.white, size: 31),
-  //accentIconTheme: IconThemeData(color: Colors.black54,size: 27),
   tabBarTheme: TabBarTheme(
     indicator: BoxDecoration(
         border:
             Border(top: BorderSide(color: Colors.indigo.shade100, width: 3))),
   ),
-  //accentTextTheme: TextTheme(bodyText2: TextStyle(color: Colors.blue),
-  // bodyText1: TextStyle(color: Colors.white)
 );

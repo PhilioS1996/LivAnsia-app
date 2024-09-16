@@ -6,7 +6,6 @@ import 'package:gender_picker/source/gender_picker.dart';
 import 'package:livansia_app/pages/welcome_screens/welcome_screen.dart';
 import 'package:livansia_app/services/authedication_service.dart';
 import 'package:provider/provider.dart';
-import '../../global/app_drawer.dart';
 import '../../providers/database_firebase.dart';
 
 bool _isButtonDisCal = true;
@@ -38,13 +37,9 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
           !_isButtonDisGen &&
           selectedOptionJob != -1 &&
           useSocial != -1) {
-        //if (!_isButtonDisGen) {
         res = true;
-        // print('to res einai $res');
         return res;
-        //}
       } else {
-        // print('to res einai $res');
         res = false;
         return res;
       }
@@ -76,19 +71,12 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal[100],
-        // centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           'Πληροφορίες Χρήστη',
           textAlign: TextAlign.left,
           style: TextStyle(color: Colors.black87, fontSize: 14),
         ),
-        // const Image(
-        //     width: 50,
-        //     image: AssetImage(
-        //       "assets/6logo.png",
-        //     ),
-        //     fit: BoxFit.cover),
         actions: null,
         automaticallyImplyLeading: false,
       ),
@@ -100,7 +88,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            //mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 35),
@@ -113,9 +100,7 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
               ),
               const SizedBox(height: 15),
               Text('Πρίν Ξεκινήσεις Συμπλήρωσε τα Πεδία: ',
-                  style: Theme.of(context).textTheme.bodyLarge
-                  //.apply(fontSizeFactor: 1.5),
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 30),
               Card(
                 shape: RoundedRectangleBorder(
@@ -126,17 +111,11 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                   ),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                // color: Colors.grey[300],
                 elevation: 3,
                 child: Container(
                   width: 350,
-                  // height: 190,
                   decoration: BoxDecoration(
                     color: Colors.white24,
-                    // border: Border.all(
-                    //   color: Colors.teal.shade100,
-                    //   width: 2,
-                    // ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Form(
@@ -144,7 +123,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        // const SizedBox(height: 9),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 0),
@@ -159,7 +137,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              // const SizedBox(width: 10),
                               Container(
                                 width: 140,
                                 decoration: BoxDecoration(
@@ -184,7 +161,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                           child: SizedBox(
                             width: 310,
                             child: Column(
-                              //crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 const Row(
@@ -262,9 +238,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                             ),
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 30,
-                        // ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -316,7 +289,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                 animationDuration:
                                     const Duration(milliseconds: 300),
                                 isCircular: true,
-                                // default : true,
                                 opacityOfGradient: 0.4,
                                 padding: const EdgeInsets.all(3),
                                 size: 50, //default : 40
@@ -450,12 +422,6 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
                                 uid: authServiceProv.userSignIn!.uid)
                             .updateUserInfo(genderType!, born,
                                 selectedOptionJob, useSocial);
-
-                        // Navigator.push(
-                        //   context,
-                        //   new MaterialPageRoute(
-                        //       builder: (context) =>  Questionnaire()),
-                        // );
                         // ignore: use_build_context_synchronously
                         await Navigator.push(
                           context,
@@ -483,39 +449,9 @@ class _WelcomeRegisterState extends State<WelcomeRegister> {
         ),
       ),
     );
-    //     } else {
-    //       return LoagingSpin();
-    //     }
-    //   },
-    // );
   }
-
-  // Future<void> _selectDate(BuildContext context) async {
-  //   final datePick = await showDatePicker(
-  //       // theme: ThemeData(
-  //       //   primaryColor: Colors.teal[100],
-  //       //   //  accentColor: Colors.indigo[100],
-  //       // ),
-  //       context: context,
-  //       initialDate: birthDate,
-  //       firstDate: DateTime(1900),
-  //       lastDate: DateTime.now());
-  //   if (datePick != null) {
-  //     // && datePick != birthDate
-  //     setState(() {
-  //       birthDate = datePick;
-  //       isDateSelected = true;
-  //       setState(() => _isButtonDisCal = false);
-  //       // put it here
-  //       born =
-  //           "${birthDate.month}/${birthDate.day}/${birthDate.year}"; // 08/14/2019
-  //       _selectedDate = born;
-  //     });
-  //   }
-  // }
 }
 
-//var newDateTime = DateTime.utc(null);
 late String born;
 String initValue = "Select your Birth Date";
 bool isDateSelected = false;

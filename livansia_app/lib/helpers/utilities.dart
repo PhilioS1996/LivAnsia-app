@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class Utilities {
   static int textButtonSize = 34;
-
+// convert string type date to DateTime object
   DateTime parseDate(String dateString) {
     List<String> components = dateString.split(' ');
     String month = components[0];

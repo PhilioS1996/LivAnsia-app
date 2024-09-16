@@ -1,5 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:livansia_app/models/event_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:livansia_app/providers/database_questions_firestore.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -13,20 +12,16 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen>
     with TickerProviderStateMixin {
   late CalendarFormat _calendarFormat;
-  late DateTime _focusedDay;
+  DateTime _focusedDay = DateTime.now();
   late DateTime _selectedDay;
   List datesHoli = [DateTime(2024, 02, 9)];
   Offset myOffset = Offset(50, 50);
-  // List _getEventsForDay(DateTime day) {
-  //   // Implementation example
-  //   return eventsData[day] ?? [];
-  // }
 
   @override
   void initState() {
     super.initState();
     _calendarFormat = CalendarFormat.month;
-    _focusedDay = DateTime.now();
+
     _selectedDay = DateTime.now();
     initializeDateFormatting('el_GR', null);
   }
@@ -52,28 +47,36 @@ class _CalendarScreenState extends State<CalendarScreen>
               locale: 'el_GR',
               firstDay: DateTime.utc(2010, 10, 18),
               lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
+              focusedDay: _focusedDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               onFormatChanged: (format) {
                 setState(() {
                   _calendarFormat = format;
                 });
               },
-              // onPageChanged: (focusedDay) {
-              //   _focusedDay = focusedDay;
-              // },
+              availableCalendarFormats: const {
+                CalendarFormat.month: 'Month',
+                CalendarFormat.twoWeeks: '2 weeks',
+                CalendarFormat.week: 'Week',
+              },
+              onPageChanged: (focusedDay) {
+                if (kDebugMode) {
+                  print(focusedDay);
+                }
+                setState(() {
+                  _focusedDay = focusedDay;
+                });
+              },
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
                   _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
                 });
               },
               calendarStyle: CalendarStyle(
                 outsideDaysVisible: false,
-                // weekendTextStyle: const TextStyle().copyWith(color: Colors.teal[200]),
                 holidayTextStyle:
                     const TextStyle().copyWith(color: Colors.blue[800]),
               ),
@@ -128,7 +131,7 @@ class _CalendarScreenState extends State<CalendarScreen>
               padding: EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline_rounded),
+                  Icon(Icons.info_outline_rounded),
                   Flexible(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),

@@ -20,8 +20,8 @@ class _TwoTextBoxWidgetState extends State<TwoTextBoxWidget> {
       key: questionsProvider.key1,
       shape: RoundedRectangleBorder(
         side: BorderSide(
-          color: questionsProvider.doubleTextContainerColor,
-          //Color(0x2C009687), // Defines the color of the border
+          color: questionsProvider
+              .doubleTextContainerColor, // Defines the color of the border
           width: 2.0, // Defines the width of the border
         ),
         borderRadius: BorderRadius.circular(20.0),
@@ -54,7 +54,7 @@ class _TwoTextBoxWidgetState extends State<TwoTextBoxWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   const Text(
-                    'Συνολικό Screen Time:',
+                    'Συνολικό\nScreen Time:',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -62,7 +62,7 @@ class _TwoTextBoxWidgetState extends State<TwoTextBoxWidget> {
                   ),
                   const SizedBox(width: 10),
                   Container(
-                    width: 140,
+                    width: 60,
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
@@ -75,9 +75,29 @@ class _TwoTextBoxWidgetState extends State<TwoTextBoxWidget> {
                       focusNode: questionsProvider.focusNode1,
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
-                      controller: questionsProvider.screenTimeContr,
+                      controller: questionsProvider.screenTimeContr1,
                     ),
                   ),
+                  const Text('h'),
+                  const SizedBox(width: 10),
+                  Container(
+                    width: 60,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.indigo.shade100,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: TextField(
+                      focusNode: questionsProvider.focusNode1_2,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      controller: questionsProvider.screenTimeContr2,
+                    ),
+                  ),
+                  const Text('min'),
                 ],
               ),
               Row(
@@ -118,6 +138,7 @@ class _TwoTextBoxWidgetState extends State<TwoTextBoxWidget> {
   }
 }
 
+// info pop up window
 void _showInfoSettings(BuildContext context) {
   showDialog(
     context: context,

@@ -1,5 +1,4 @@
 import 'package:livansia_app/pages/questions/widget/bottom_text.dart';
-
 import '../../../helpers/imports.dart';
 import '../../../providers/questions_provider.dart';
 
@@ -55,31 +54,32 @@ class _TextBoxWidgetState extends State<TextBoxWidget> {
                           questionsProvider.setRadioValLastComplex(value);
                         },
                       ),
-                      const Text('Όχι, δεν έμαθα.  '),
+                      const Text('Όχι, δεν έμαθα.'),
                     ],
                   ),
                 ),
                 ListTile(
-                    textColor:
-                        multiRadio == 2 ? Colors.indigo.shade300 : Colors.black,
-                    title: Row(
-                      children: [
-                        Radio<int>(
-                          value: 2,
-                          groupValue: multiRadio,
-                          activeColor: Colors.indigo.shade300,
-                          onChanged: (value) {
-                            setState(() {
-                              multiRadio = value!;
-                            });
-                            questionsProvider.setValuePickedSlider(
-                                value!, widget.index, '');
-                            questionsProvider.setRadioValLastComplex(value);
-                          },
-                        ),
-                        const Text('Έμαθα  και θα πάω. '),
-                      ],
-                    )),
+                  textColor:
+                      multiRadio == 2 ? Colors.indigo.shade300 : Colors.black,
+                  title: Row(
+                    children: [
+                      Radio<int>(
+                        value: 2,
+                        groupValue: multiRadio,
+                        activeColor: Colors.indigo.shade300,
+                        onChanged: (value) {
+                          setState(() {
+                            multiRadio = value!;
+                          });
+                          questionsProvider.setValuePickedSlider(
+                              value!, widget.index, '');
+                          questionsProvider.setRadioValLastComplex(value);
+                        },
+                      ),
+                      const Text('Έμαθα και θα πάω/κάνω.'),
+                    ],
+                  ),
+                ),
                 ListTile(
                   textColor:
                       multiRadio == 3 ? Colors.indigo.shade300 : Colors.black,
@@ -98,7 +98,7 @@ class _TextBoxWidgetState extends State<TextBoxWidget> {
                           questionsProvider.setRadioValLastComplex(value);
                         },
                       ),
-                      const Text('Έμαθα  και θα πάω.'),
+                      const Text('Έμαθα και δεν θα πάω/κάνω.'),
                     ],
                   ),
                 ),
@@ -120,7 +120,7 @@ class _TextBoxWidgetState extends State<TextBoxWidget> {
                           questionsProvider.setRadioValLastComplex(value);
                         },
                       ),
-                      const Text('Έμαθα και δεν θα πάω.'),
+                      const Text('Έμαθα και δεν ξέρω αν θα πάω/κάνω.'),
                     ],
                   ),
                 ),
@@ -142,29 +142,7 @@ class _TextBoxWidgetState extends State<TextBoxWidget> {
                           questionsProvider.setRadioValLastComplex(value);
                         },
                       ),
-                      const Text('Έμαθα και δεν ξέρω αν θα πάω.'),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  textColor:
-                      multiRadio == 6 ? Colors.indigo.shade300 : Colors.black,
-                  title: Row(
-                    children: [
-                      Radio<int>(
-                        value: 6,
-                        groupValue: multiRadio,
-                        activeColor: Colors.indigo.shade400,
-                        onChanged: (value) {
-                          setState(() {
-                            multiRadio = value!;
-                          });
-                          questionsProvider.setValuePickedSlider(
-                              value!, widget.index, '');
-                          questionsProvider.setRadioValLastComplex(value);
-                        },
-                      ),
-                      const Text('Θα πήγαινα αλλά έγινε ήδη. '),
+                      const Text('Θα πήγαινα/έκανα αλλά έγινε ήδη.'),
                     ],
                   ),
                 ),

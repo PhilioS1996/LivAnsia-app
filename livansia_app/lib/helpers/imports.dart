@@ -7,7 +7,6 @@ export 'package:livansia_app/providers/theme_provider.dart';
 ///packages
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
-//export 'package:firebase_database/firebase_database.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 
 ///helpers

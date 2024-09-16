@@ -1,6 +1,5 @@
 import 'package:android_intent/android_intent.dart';
 import 'package:livansia_app/global/app_drawer.dart';
-
 import 'package:flutter/material.dart';
 import 'welcome_screens/welcome_screen.dart';
 

@@ -1,3 +1,4 @@
+//model fot the quotes retrieved from database
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GetQuotes {

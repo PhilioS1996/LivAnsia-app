@@ -4,7 +4,6 @@ import 'package:livansia_app/models/get_answers.dart';
 import 'package:livansia_app/models/get_quote.dart';
 import 'package:intl/intl.dart';
 import '../../models/get_quest.dart';
-// import '../../models/getQuote.dart';
 
 class DatabaseServiceProvider with ChangeNotifier {
   final CollectionReference questionnaireCol =
@@ -37,13 +36,6 @@ class DatabaseServiceProvider with ChangeNotifier {
       listQuestions = docSnap.docs.cast<GetQuest>();
     });
     return listQuestions!;
-    // return snapshot.docs.map((doc2) {
-    //   return GetQuest(
-    //     name: doc2.data['name'] ?? '',
-
-    //     ///_userDataFromSnapshot opws ekei
-    //   );
-    // }).toList();
   }
 
   Stream<List<GetQuest>> readQuestions() {
@@ -66,72 +58,6 @@ class DatabaseServiceProvider with ChangeNotifier {
     return questionnaireCol.snapshots().map(_questionsFromSnapshot);
   }
 
-  // List<GetFamous> _famousQFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.docs.map((doc2) {
-  //     return GetFamous(
-  //       talk: doc2.data['talk'] ?? '',
-  //     );
-  //   }).toList();
-  // }
-
-  // Stream<List<GetFamous>> get famQuotes {
-  //   return famousQ.snapshots().map(_famousQFromSnapshot);
-  // }
-  // List<GetQuotes> _quotesFromSnapshot(DocumentSnapshot snapshot) {
-  //   final reference = quotesRefer.withConverter(
-  //     fromFirestore: GetQuotes.fromFirestore,
-  //     toFirestore: (GetQuotes quotes, _) => quotes.toFirestore(),
-  //   );
-
-  //   reference.get().then((value) {
-  //     QuerySnapshot<GetQuotes> docSnap = value;
-  //     listQuotes = docSnap.docs.cast<GetQuotes>();
-  //   });
-  //   print(listQuotes?.length);
-  //   return listQuotes!;
-  //   // return snapshot.docs.map((doc2) {
-  //   //   return GetQuotes(
-  //   //     name: doc2.data['name'] ?? '',
-
-  //   //     ///_userDataFromSnapshot opws ekei
-  //   //   );
-  //   // }).toList();
-  // }
-
-  // List<GetQuotes> _quotesFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.documents.map((doc) {
-  //     return GetQuotes(
-  //       text: doc.data['textL'] ?? [],
-  //       // doc.data['quo2']
-  //     );
-  //   }).toList();
-  // }
-
-  // Stream<List<GetQuotes>> get quotes1 {
-  //   return quotesRefer
-  //       .where('name', isEqualTo: 'category1')
-  //       .snapshots()
-  //       .map(_quotesFromSnapshot);
-  // }
-
-  // Stream<List<GetQuotes>> get quotes2 {
-  //   return quotesRefer
-  //       .where('name', isEqualTo: 'category2')
-  //       .snapshots()
-  //       .map(_quotesFromSnapshot);
-  // }
-
-  // Stream<List<GetQuotes>> get quotes3 {
-  //   return quotesRefer.doc('category3').snapshots().map(_quotesFromSnapshot);
-  // }
-
-  // Stream<List<GetQuotes>> get quotes4 {
-  //   return quotesRefer
-  //       .where('name', isEqualTo: 'category4')
-  //       .snapshots()
-  //       .map(_quotesFromSnapshot);
-  // }
-
   Future printDocs(uid) async {
     DocumentSnapshot documentSnapshot = await answersCollection.doc(uid).get();
     RegExp regexNumbersOnly = RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$');
@@ -145,8 +71,9 @@ class DatabaseServiceProvider with ChangeNotifier {
       });
       for (int j = 0; j < answers.length; j++) {
         for (var element in answers[j].data.keys) {
-          print('mesa sti function ${answers[j].data.keys}');
-
+          if (kDebugMode) {
+            print('mesa sti function ${answers[j].data.keys}');
+          }
           if (regexNumbersOnly.hasMatch(element)) {
             final dateString = element;
             final formattedDate = dateString.replaceAll(' ', 'T');
@@ -160,10 +87,6 @@ class DatabaseServiceProvider with ChangeNotifier {
         }
       }
     }
-
-    // for (int i = 0; i < answers.length; i++) {
-    //   print(answers[i]);
-    // }
   }
 
   Future getUserAge(uid) async {
@@ -171,7 +94,6 @@ class DatabaseServiceProvider with ChangeNotifier {
       // Use await to wait for the completion of the Future<DocumentSnapshot>
       DocumentSnapshot documentSnapshot =
           await answersCollection.doc(uid).get();
-
       // Check if the document exists before accessing data
       if (documentSnapshot.exists) {
         ageUser = documentSnapshot['Age'];

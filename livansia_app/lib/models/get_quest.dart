@@ -23,6 +23,7 @@ class GetQuest {
   toList() {}
 }
 
+// model for the quotes from the first app (not used)
 class GetFamous {
   final String talk;
 

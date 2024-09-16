@@ -36,9 +36,6 @@ class _AppDrawerState extends State<AppDrawer> {
         children: <Widget>[
           DrawerHeader(
             padding: const EdgeInsets.all(0),
-            // decoration: BoxDecoration(
-            //   color: Colors.teal[100],
-            // ),
             child: Container(
               color: Colors.teal[100],
               child: Column(
@@ -63,32 +60,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 ],
               ),
             ),
-            // Image(
-            //     width: 50,
-            //     image: AssetImage(
-            //       "assets/6logo.png",
-            //     ),
-            //     fit: BoxFit.contain),
-            //     Column(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     Text(
-            //       '',
-            //       style: TextStyle(
-            //         fontStyle: FontStyle.normal,
-            //         fontWeight: FontWeight.w500,
-            //         color: Colors.indigo.shade300,
-            //         fontSize: 30,
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ),
-          // Divider(
-          //   color: Colors.indigo[200],
-          //   height: 0,
-          // ),
           ListTile(
             title: const Text('Σχετικά'),
             trailing: const Icon(Icons.info_outline),
@@ -101,18 +73,6 @@ class _AppDrawerState extends State<AppDrawer> {
             color: Colors.indigo[200],
             height: 0,
           ),
-          // ListTile(
-          //   title: const Text('Ημερολόγιο'),
-          //   trailing: const Icon(Icons.calendar_today),
-          //   onTap: () {
-          //     // Navigator.push(context,
-          //     //     new MaterialPageRoute(builder: (context) => Calendar()));
-          //   },
-          // ),
-          // Divider(
-          //   color: Colors.indigo[200],
-          //   height: 0,
-          // ),
           ListTile(
             title: const Text('Quote'),
             trailing: const Icon(Icons.question_answer),
@@ -146,7 +106,6 @@ class _AppDrawerState extends State<AppDrawer> {
             onTap: () async {
               // Check if AuthService instance exists
               final user = authService.userSignIn?.uid;
-
               await databaseProvider.getUserAge(user);
               await databaseProvider.getUserGender(user);
               await databaseProvider.getUserJob(user);
@@ -158,7 +117,6 @@ class _AppDrawerState extends State<AppDrawer> {
           Divider(
             color: Colors.indigo[200],
             height: 0,
-            // thickness: 0.75,
           ),
           ListTile(
               // Log Out.
@@ -179,7 +137,6 @@ class _AppDrawerState extends State<AppDrawer> {
   // Define the function to sign out and navigate to the wrapper
   Future<void> _signOutAndNavigateToWrapper(BuildContext context) async {
     await auth.signOut();
-
     // ignore: use_build_context_synchronously
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => Wrapper(apoPou: false)));

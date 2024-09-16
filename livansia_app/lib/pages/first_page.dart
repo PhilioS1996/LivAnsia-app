@@ -1,9 +1,6 @@
 // import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:livansia_app/pages/user_consent.dart';
-
-// import '../global/animated_logo_container.dart';
 import 'authenticate_firebase/sign_in.dart';
 
 class FirstScreen extends StatefulWidget {

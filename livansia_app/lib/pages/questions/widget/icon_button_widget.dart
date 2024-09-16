@@ -1,3 +1,5 @@
+// the row of icon buttons as answers to a question
+// the variations are 3 or 5 icons as answer choises
 import '../../../helpers/imports.dart';
 import '../../../providers/questions_provider.dart';
 
