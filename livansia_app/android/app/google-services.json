@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "91700786583",
+    "firebase_url": "https://agxosapp.firebaseio.com",
+    "project_id": "agxosapp",
+    "storage_bucket": "agxosapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91700786583:android:3df147c55d66946e04c0d2",
+        "android_client_info": {
+          "package_name": "com.example.livansia_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91700786583-vngr2mbus6l41nogndvgc956un17ck3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvqKxmrMVFS1jF6yYyCHTogHwBeCAy4p8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91700786583-vngr2mbus6l41nogndvgc956un17ck3n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "91700786583-aj4t2hjet1a4t0k25uvq1249ba16h6a1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "CFBundleInfoDictionaryVersion"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91700786583:android:9068e7c44d0e95f704c0d2",
+        "android_client_info": {
+          "package_name": "com.example.new_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91700786583-vngr2mbus6l41nogndvgc956un17ck3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvqKxmrMVFS1jF6yYyCHTogHwBeCAy4p8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91700786583-vngr2mbus6l41nogndvgc956un17ck3n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "91700786583-aj4t2hjet1a4t0k25uvq1249ba16h6a1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "CFBundleInfoDictionaryVersion"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
